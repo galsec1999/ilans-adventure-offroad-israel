@@ -1,0 +1,65 @@
+{
+  "title": "קישורי Track שלא ניתן לקדם לכרטיס",
+  "document_version": "2.1.4",
+  "product_version": "2.1.0",
+  "count": 1,
+  "records": [
+    {
+      "appendix_label": "הקלטת ADV KTM ללא שם מלא",
+      "appendix_context": "אדוונצרים צפון",
+      "track_id": "4746094593179648",
+      "href_track_id": "4746094593179648",
+      "id_matches_href": true,
+      "public_url": "https://off-road.io/track/4746094593179648",
+      "api_url": "https://api.off-road.io/_ah/api/offroadApi/v2/tracks/trackResult/4746094593179648",
+      "duplicate_of_existing_full_card": false,
+      "fetch": {
+        "url": "https://api.off-road.io/_ah/api/offroadApi/v2/tracks/trackResult/4746094593179648",
+        "http_status": null,
+        "attempts": 3,
+        "error": "HTTPError: HTTP Error 404: Not Found"
+      },
+      "verified": false,
+      "source_metadata": {
+        "id": null,
+        "title": null,
+        "short_description": null,
+        "activity_type": null,
+        "difficulty_level": null,
+        "difficulty_bucket_for_guide": null,
+        "duration_ms": null,
+        "duration_hours": null,
+        "distance_km": null,
+        "distance_basis": null,
+        "start": null,
+        "end": null,
+        "area_code": null,
+        "round_trip": null,
+        "created": null,
+        "updated": null,
+        "owner_display_name": null,
+        "likes": null,
+        "reviews_count": null,
+        "rating_sum": null,
+        "average_rating": null,
+        "navigators_number": null,
+        "background_image_url": null,
+        "track_layer_key": null,
+        "layers_statistics": null,
+        "map_items": []
+      },
+      "field_provenance": {
+        "title": "Off-Road public API: track.title",
+        "description": "Off-Road public API: track.shortDescription",
+        "activity": "Off-Road public API: track.activityType",
+        "difficulty": "Off-Road public API: track.difficultyLevel (numeric 1-5)",
+        "duration": "Off-Road public API: track.duration (milliseconds)",
+        "distance": null,
+        "points": "Off-Road public API: mapItemList",
+        "reviews": "Off-Road public API: track.reviews and track.rating; no review text was requested or inferred"
+      },
+      "appendix_order": 4,
+      "duplicate_within_appendix": false
+    }
+  ]
+}

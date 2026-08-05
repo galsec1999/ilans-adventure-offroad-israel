@@ -1,0 +1,367 @@
+{
+  "summary": {
+    "productVersion": "2.1.0",
+    "mainDocumentVersion": "2.1.4",
+    "qaDocumentVersion": "2.1.7",
+    "checks": 68,
+    "passed": 68,
+    "failed": 0,
+    "routeCount": 339,
+    "legacyCount": 304,
+    "offroadVerifiedCount": 35,
+    "mapCardCount": 276,
+    "liveTrackIds": 295,
+    "qualityCounts": {
+      "כרטיס שימושי חלקית": 189,
+      "כרטיס מלא": 69,
+      "מידע חסר": 74,
+      "סגור / לא זמין": 7
+    },
+    "htmlFiles": [
+      "index.html",
+      "offline.html"
+    ]
+  },
+  "checks": [
+    {
+      "name": "339 route cards",
+      "passed": true,
+      "detail": "found 339"
+    },
+    {
+      "name": "304 legacy cards",
+      "passed": true,
+      "detail": "found 304"
+    },
+    {
+      "name": "35 verified Off-Road cards",
+      "passed": true,
+      "detail": "found 35"
+    },
+    {
+      "name": "unique route ids",
+      "passed": true,
+      "detail": "unique 339"
+    },
+    {
+      "name": "research cards removed from catalog",
+      "passed": true,
+      "detail": "no research lead rendered as a route"
+    },
+    {
+      "name": "old appendix removed",
+      "passed": true,
+      "detail": "appendix is absent"
+    },
+    {
+      "name": "legacy ids and order preserved",
+      "passed": true,
+      "detail": "preserved 304 ids"
+    },
+    {
+      "name": "every card has an image",
+      "passed": true,
+      "detail": "images 339/339"
+    },
+    {
+      "name": "every route image has alt",
+      "passed": true,
+      "detail": "all route images have alt attributes"
+    },
+    {
+      "name": "HTML export on every card",
+      "passed": true,
+      "detail": "found 339"
+    },
+    {
+      "name": "invite generator on every card",
+      "passed": true,
+      "detail": "found 339"
+    },
+    {
+      "name": "closed routes keep invite disabled",
+      "passed": true,
+      "detail": "disabled 7"
+    },
+    {
+      "name": "276 cards with navigation",
+      "passed": true,
+      "detail": "found 276"
+    },
+    {
+      "name": "all new Off-Road cards have map link",
+      "passed": true,
+      "detail": "35/35"
+    },
+    {
+      "name": "all new Off-Road cards have local QR",
+      "passed": true,
+      "detail": "35/35"
+    },
+    {
+      "name": "new cards expose distance",
+      "passed": true,
+      "detail": "35/35"
+    },
+    {
+      "name": "new cards disclose source verification",
+      "passed": true,
+      "detail": "35/35"
+    },
+    {
+      "name": "new cards include ratings section",
+      "passed": true,
+      "detail": "35/35"
+    },
+    {
+      "name": "seven verified Off-Road source photos are local",
+      "passed": true,
+      "detail": "found 7"
+    },
+    {
+      "name": "quality classification complete",
+      "passed": true,
+      "detail": "{\"כרטיס שימושי חלקית\": 189, \"כרטיס מלא\": 69, \"מידע חסר\": 74, \"סגור / לא זמין\": 7}"
+    },
+    {
+      "name": "source classification complete",
+      "passed": true,
+      "detail": "all cards have an honest source class"
+    },
+    {
+      "name": "original order stored",
+      "passed": true,
+      "detail": "1..339"
+    },
+    {
+      "name": "surface false-positive fixed",
+      "passed": true,
+      "detail": "לא צוין"
+    },
+    {
+      "name": "unverified difficulty stays unknown",
+      "passed": true,
+      "detail": "לא אומת"
+    },
+    {
+      "name": "alternate hard mention no longer overrides primary",
+      "passed": true,
+      "detail": "בינוני"
+    },
+    {
+      "name": "legacy difficulty wording preserved",
+      "passed": true,
+      "detail": "12/12 corrected"
+    },
+    {
+      "name": "explicit linear route shape takes priority",
+      "passed": true,
+      "detail": "4/4 corrected"
+    },
+    {
+      "name": "filter and sort controls exist",
+      "passed": true,
+      "detail": "q, region, subregion, difficulty, surface, shape, status, quality, source, map, sort, theme"
+    },
+    {
+      "name": "sort modes are declared",
+      "passed": true,
+      "detail": "original, title, region, difficulty, quality, distance-asc, distance-desc"
+    },
+    {
+      "name": "light theme is first default option",
+      "passed": true,
+      "detail": "light, dark, system"
+    },
+    {
+      "name": "rich invite controls exist",
+      "passed": true,
+      "detail": "14 required controls"
+    },
+    {
+      "name": "invite date and times disable browser autofill",
+      "passed": true,
+      "detail": "[\"off\", \"off\", \"off\", \"off\"]"
+    },
+    {
+      "name": "route JSON counts",
+      "passed": true,
+      "detail": "339/304/35"
+    },
+    {
+      "name": "research archive preserves 100",
+      "passed": true,
+      "detail": "found 100"
+    },
+    {
+      "name": "research navigation status matches links",
+      "passed": true,
+      "detail": "{\"not_found_in_technical_crawl\": 55, \"technically_discovered_not_route-verified\": 45}"
+    },
+    {
+      "name": "unavailable archive preserves one",
+      "passed": true,
+      "detail": "found 1"
+    },
+    {
+      "name": "Off-Road evidence preserves 36",
+      "passed": true,
+      "detail": "records 36"
+    },
+    {
+      "name": "JSON documents show versions",
+      "passed": true,
+      "detail": "2.1.4"
+    },
+    {
+      "name": "safety document versions agree",
+      "passed": true,
+      "detail": "2.1.4/2.1.4 2.1.0/2.1.0"
+    },
+    {
+      "name": "stale v2.0 QA artifact removed",
+      "passed": true,
+      "detail": "qa-result.json absent"
+    },
+    {
+      "name": "295 live Track ids in catalog",
+      "passed": true,
+      "detail": "found 295"
+    },
+    {
+      "name": "manifest versions",
+      "passed": true,
+      "detail": "2.1.0/2.1.4"
+    },
+    {
+      "name": "manifest relative start and scope",
+      "passed": true,
+      "detail": "./ ./"
+    },
+    {
+      "name": "standalone display",
+      "passed": true,
+      "detail": "standalone"
+    },
+    {
+      "name": "manifest icons exist",
+      "passed": true,
+      "detail": "3 icons"
+    },
+    {
+      "name": "PWA icon dimensions",
+      "passed": true,
+      "detail": "{\"./icons/icon-192.png\": [192, 192], \"./icons/icon-512.png\": [512, 512], \"./icons/maskable-512.png\": [512, 512]}"
+    },
+    {
+      "name": "service worker versioned",
+      "passed": true,
+      "detail": "v2.1 namespace"
+    },
+    {
+      "name": "service worker deletion scoped",
+      "passed": true,
+      "detail": "only own namespace is deleted"
+    },
+    {
+      "name": "service worker relative shell",
+      "passed": true,
+      "detail": "relative app shell"
+    },
+    {
+      "name": "robots.txt blocks crawling",
+      "passed": true,
+      "detail": "exact expected content"
+    },
+    {
+      "name": "no sitemap",
+      "passed": true,
+      "detail": "no sitemap files"
+    },
+    {
+      "name": "all HTML has exact noindex",
+      "passed": true,
+      "detail": "checked 2 HTML files"
+    },
+    {
+      "name": "all shipped HTML shows document version",
+      "passed": true,
+      "detail": "checked 2 HTML files"
+    },
+    {
+      "name": "main title shows product and document version",
+      "passed": true,
+      "detail": "ספר מסלולי האדוונצ׳ר והאופרוד בישראל של אילן · גרסת מוצר 2.1.0 · גרסת מסמך 2.1.4"
+    },
+    {
+      "name": "support documents show versions",
+      "passed": true,
+      "detail": "README_HE.md, CHANGELOG.md, SOURCE_NOTES.md, BUILD_INFO.txt, QA_REPORT.md"
+    },
+    {
+      "name": "app has real sort implementation",
+      "passed": true,
+      "detail": "sortCards and distance modes"
+    },
+    {
+      "name": "app includes Off-Road maps in invitation",
+      "passed": true,
+      "detail": "map list in makeInvite"
+    },
+    {
+      "name": "app includes poster and HTML export",
+      "passed": true,
+      "detail": "poster + export functions"
+    },
+    {
+      "name": "invite map control resets on every opening",
+      "passed": true,
+      "detail": "reset label and disabled state"
+    },
+    {
+      "name": "invite validates and normalizes time order and whole-number group size",
+      "passed": true,
+      "detail": "normalized time order + sanitized integer 1..100"
+    },
+    {
+      "name": "poster discloses image provenance",
+      "passed": true,
+      "detail": "both image states disclosed"
+    },
+    {
+      "name": "HTML export embeds images concurrently with timeout",
+      "passed": true,
+      "detail": "bounded concurrent embedding"
+    },
+    {
+      "name": "invite errors clear after field correction",
+      "passed": true,
+      "detail": "live correction"
+    },
+    {
+      "name": "poster share has non-cancel fallback",
+      "passed": true,
+      "detail": "download + copy fallback"
+    },
+    {
+      "name": "AI prompt requires unknown answer",
+      "passed": true,
+      "detail": "explicit unknown rule"
+    },
+    {
+      "name": "no private WhatsApp group link embedded",
+      "passed": true,
+      "detail": "no private group invite URL"
+    },
+    {
+      "name": "index local references exist",
+      "passed": true,
+      "detail": "all resolved"
+    },
+    {
+      "name": "no base64 images in main HTML",
+      "passed": true,
+      "detail": "assets remain external files"
+    }
+  ]
+}
