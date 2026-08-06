@@ -1,9 +1,10 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.1.4; גרסת מוצר 2.1.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.1.5; גרסת מוצר 2.1.0 */
 (() => {
   'use strict';
 
   const PRODUCT_VERSION = '2.1.0';
-  const DOC_VERSION = '2.1.4';
+  const DOC_VERSION = '2.1.5';
+  const OFFROAD_METADATA = window.OFFROAD_TRACK_METADATA?.records || {};
   const INVITE_STORAGE_KEY = 'routeGuideInviteDefaultsV21';
   const THEME_STORAGE_KEY = 'routeGuideThemeV21';
   const cards = [...document.querySelectorAll('.route-card')];
@@ -45,6 +46,98 @@
     return result;
   }
 
+  function trackIds(card) {
+    return [...new Set($$('a[href*="off-road.io/track/"]', card).map(link => link.href.match(/\/track\/(\d+)/)?.[1]).filter(Boolean))];
+  }
+
+  function trackRecords(card) {
+    return trackIds(card).map(trackId => OFFROAD_METADATA[trackId] || {
+      trackId,
+      publicUrl:`https://off-road.io/track/${trackId}`,
+      status:'missing'
+    });
+  }
+
+  function sourceDistanceDuration(record) {
+    if (!record || record.status !== 'verified') return 'לא זמין במקור';
+    const parts = [];
+    if (Number(record.distanceKm) > 0) parts.push(`${Number(record.distanceKm).toLocaleString('he-IL', {maximumFractionDigits:1})} ק״מ`);
+    if (record.durationDisplay) parts.push(record.durationDisplay);
+    return parts.join(' · ') || 'לא צוין במקור';
+  }
+
+  function sourceTrackSummary(record, index, total) {
+    const prefix = total > 1 ? `הקלטה ${index + 1}: ` : '';
+    if (!record || record.status !== 'verified') return `${prefix}הנתונים אינם זמינים עוד ב־Off-Road`;
+    return `${prefix}${record.title || `Track ${record.trackId}`} — ${sourceDistanceDuration(record)} · ${record.activityDisplay || 'פעילות לא צוינה'} · ${record.difficultyDisplay || 'קושי לא דורג'}`;
+  }
+
+  function addMetaItem(card, label, value) {
+    const meta = $('.meta', card);
+    if (!meta || !value) return;
+    const existing = $$('.meta > div', card).find(item => plain($('small', item)?.textContent) === label);
+    if (existing) {
+      const target = $('b', existing);
+      if (target) target.textContent = value;
+      return;
+    }
+    const item = document.createElement('div');
+    const small = document.createElement('small');
+    const strong = document.createElement('b');
+    small.textContent = label;
+    strong.textContent = value;
+    item.append(small, strong);
+    meta.append(item);
+  }
+
+  function enrichOffroadCards() {
+    cards.forEach(card => {
+      const records = trackRecords(card);
+      if (!records.length) return;
+      const verified = records.filter(record => record.status === 'verified');
+      const primary = verified[0];
+
+      if (records.length === 1 && primary) {
+        const currentMeta = cardMeta(card);
+        if (!/ק״מ|שעה|דקות/.test(currentMeta['אורך / זמן'] || '')) addMetaItem(card, 'אורך / זמן', sourceDistanceDuration(primary));
+        if (!currentMeta['פעילות במקור']) addMetaItem(card, 'פעילות במקור', primary.activityDisplay || 'לא צוין במקור');
+        addMetaItem(card, 'קושי ב־Off-Road', primary.difficultyDisplay || 'לא דורג במקור');
+        if (!card.dataset.distance && Number(primary.distanceKm) > 0) card.dataset.distance = String(primary.distanceKm);
+        const facts = $('.summary-facts', card);
+        if (facts && !/ק״מ/.test(facts.textContent) && sourceDistanceDuration(primary) !== 'לא צוין במקור') {
+          facts.textContent += ` · ${sourceDistanceDuration(primary)}`;
+        }
+      }
+
+      const nav = $('.nav-block', card);
+      if (!nav || $('.offroad-source-data', nav)) return;
+      const section = document.createElement('section');
+      section.className = 'offroad-source-data';
+      const heading = document.createElement('h5');
+      heading.textContent = records.length > 1 ? 'נתוני Off-Road לכל ההקלטות בכרטיס' : 'נתוני Off-Road של ההקלטה';
+      const grid = document.createElement('div');
+      grid.className = 'offroad-source-grid';
+      records.forEach((record, index) => {
+        const item = document.createElement('article');
+        item.className = `offroad-source-item ${record.status === 'verified' ? 'verified' : 'unavailable'}`;
+        const title = document.createElement('strong');
+        title.textContent = record.status === 'verified' ? (record.title || `Track ${record.trackId}`) : `Track ${record.trackId}`;
+        const facts = document.createElement('span');
+        facts.textContent = sourceTrackSummary(record, index, records.length).replace(/^הקלטה \d+: /, '').replace(/^.*? — /, '');
+        const note = document.createElement('small');
+        note.textContent = record.status === 'verified'
+          ? 'מטא־דאטה מן המקור; אינו אישור שהמסלול תקין, פתוח או מתאים היום.'
+          : 'ה־Track אינו זמין כעת ב־API; הקישור נשמר לבדיקה ידנית.';
+        item.append(title, facts, note);
+        grid.append(item);
+      });
+      section.append(heading, grid);
+      nav.prepend(section);
+    });
+  }
+
+  enrichOffroadCards();
+
   function sectionText(card, heading) {
     const section = $$('.content-block, .warning, .reviews-block', card).find(item => plain($('h4', item)?.textContent).includes(heading));
     if (!section) return '';
@@ -55,6 +148,9 @@
 
   function routeData(card) {
     const meta = cardMeta(card);
+    const offroadTracks = trackRecords(card);
+    const primarySource = offroadTracks.find(record => record.status === 'verified');
+    const sourceActivities = [...new Set(offroadTracks.filter(record => record.status === 'verified').map(record => record.activityDisplay).filter(Boolean))];
     const mapUrls = [...new Set($$('a[href*="off-road.io/track/"]', card).map(link => link.href))];
     const primaryMap = mapUrls[0] || '';
     const trackMatch = primaryMap.match(/\/track\/(\d+)/);
@@ -69,14 +165,16 @@
       subregion: meta['תת־אזור'] || card.dataset.subregion || 'לא צוין',
       start: meta['יציאה'] || meta['נקודת התחלה'] || 'לא צוין',
       finish: meta['סיום'] || meta['נקודת סיום'] || 'לא צוין',
-      difficultySource: meta['דירוג מקור'] || meta['קושי במקור'] || meta['קושי'] || 'לא דורג',
+      difficultySource: offroadTracks.length > 1 ? 'מופיע לכל הקלטה בנפרד' : (primarySource?.difficultyDisplay || meta['דירוג מקור'] || meta['קושי במקור'] || meta['קושי'] || 'לא דורג'),
       difficultyNormalized: card.dataset.difficulty || 'לא אומת',
-      distanceDuration: meta['אורך / זמן'] || 'לא צוין',
-      routeType: meta['סוג'] || meta['פעילות במקור'] || 'אופרוד / אדוונצ׳ר',
+      distanceDuration: offroadTracks.length > 1 ? `${offroadTracks.length} הקלטות — הנתונים מפורטים בנפרד` : (primarySource ? sourceDistanceDuration(primarySource) : (meta['אורך / זמן'] || 'לא צוין')),
+      routeType: sourceActivities.length ? sourceActivities.join(' / ') : (meta['סוג'] || meta['פעילות במקור'] || 'אופרוד / אדוונצ׳ר'),
       verificationStatus: card.dataset.status || 'נדרש אימות עדכני',
       quality: card.dataset.quality || 'חלקי',
       description: marketing || factual || 'בכרטיס לא קיים תיאור מסלול מפורט.',
       mapUrls,
+      offroadTracks,
+      offroadTrackSummaries: offroadTracks.map((record, index) => sourceTrackSummary(record, index, offroadTracks.length)),
       primaryMap,
       trackId: trackMatch?.[1] || '',
       photoUrl: photo?.src || '',
@@ -339,6 +437,9 @@
       maps[0],
       ...(maps.length > 1 ? ['', 'מפות חלופיות:', ...maps.slice(1).map((url, index) => `${index + 1}. ${url}`)] : [])
     ] : ['🗺️ אין בכרטיס קישור ניווט מאומת — המוביל חייב להשלים ניווט לפני פרסום ויציאה.'];
+    const sourceLines = data.offroadTrackSummaries.length
+      ? ['📊 נתוני Off‑Road מן ההקלטה:', ...data.offroadTrackSummaries]
+      : [];
     const registration = registrationMode === 'קבוצת WhatsApp ייעודית'
       ? `✅ הרשמה: הצטרפות לקבוצת WhatsApp ייעודית${groupUrl ? `\n${groupUrl}` : ''}`
       : '✅ הרשמה: אישור אישי בהודעה פרטית למוביל';
@@ -356,10 +457,12 @@
       `🧭 אזור: ${data.region}${data.subregion && data.subregion !== 'לא צוין' ? ` — ${data.subregion}` : ''}`,
       `⚙️ קושי מתועד במקור: ${data.difficultySource}`,
       `📏 אורך / זמן: ${data.distanceDuration}`,
+      `🏍️ פעילות במקור: ${data.routeType}`,
       `🏍️ קצב: ${chosenPace() || '[יש לבחור קצב]'}`,
       `👥 עד ${value('limit') || '[X]'} רוכבים`,
       '',
       ...mapLines,
+      ...(sourceLines.length ? ['', ...sourceLines] : []),
       '',
       registration,
       value('notes') ? `ℹ️ הערות: ${value('notes')}` : '',
@@ -526,7 +629,7 @@
     ctx.font = '800 30px Arial';
     ctx.fillText(data.primaryMap ? 'סרקו לפתיחת מפת Off‑Road' : 'אין בכרטיס ניווט מאומת', width - 74, height - 93);
     ctx.font = '500 20px Arial';
-    ctx.fillText('יש לבדוק מסלול ותנאים סמוך ליציאה · גרסת מסמך 2.1.4', width - 74, height - 51);
+    ctx.fillText(`יש לבדוק מסלול ותנאים סמוך ליציאה · גרסת מסמך ${DOC_VERSION}`, width - 74, height - 51);
     if (data.qrUrl) {
       try {
         const qr = await loadImage(data.qrUrl);
@@ -670,6 +773,7 @@
       warnings:data.warnings || null,
       reviewsSummary:data.reviews || null,
       mapUrls:data.mapUrls,
+      offroadTrackMetadata:data.offroadTracks,
       verificationStatus:data.verificationStatus,
       motorcycleSuitability:'לא אומתה אלא אם נאמר אחרת במפורש בנתונים'
     };
