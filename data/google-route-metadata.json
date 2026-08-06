@@ -1,0 +1,67 @@
+{
+  "title": "מטא-דאטה מאומת לקישורי Google Maps Directions — גרסת מסמך 1.0.0",
+  "productVersion": "2.3.0",
+  "documentVersion": "1.0.0",
+  "generatedAt": "2026-08-06",
+  "policy": "המרחק והזמן נשמרו מתוצאת מסלול הנהיגה שהוצגה בקישור המקורי. זמן הנסיעה תלוי תנועה, חסימות ושינויים בשירות. לא הוסק דירוג קושי מ-Google Maps.",
+  "records": {
+    "r-405491051a": {
+      "status": "verified",
+      "source": "Google Maps Directions",
+      "verifiedAt": "2026-08-06",
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Dor+Alon+Yakum&destination=Mitzpe+Hashalom&waypoints=Paz+Taanakhim%7CKochav+HaYarden+National+Park%7CHamat+Gader&travelmode=driving",
+      "distanceKm": 156.0,
+      "durationMinutes": 153,
+      "durationDisplay": "2 שעות ו-33 דקות",
+      "mode": "driving",
+      "routeLabel": "דרך כביש 2 וכביש 65"
+    },
+    "r-bf00fac6f3": {
+      "status": "verified",
+      "source": "Google Maps Directions",
+      "verifiedAt": "2026-08-06",
+      "url": "https://www.google.com/maps/dir/?api=1&origin=%D7%A4%D7%96+%D7%A6%D7%9E%D7%97&destination=%D7%A7%D7%A6%D7%A8%D7%99%D7%9F&waypoints=%D7%A2%D7%99%D7%9F+%D7%99%D7%93%D7%99%D7%93%D7%99%D7%94",
+      "distanceKm": 63.8,
+      "durationMinutes": 54,
+      "durationDisplay": "54 דקות",
+      "mode": "driving",
+      "routeLabel": "דרך כביש 92 וכביש 869",
+      "warning": "Google Maps מציג אזהרה שהמסלול מוגבל לשימוש או כולל דרכים פרטיות."
+    },
+    "r-c854342424": {
+      "status": "verified",
+      "source": "Google Maps Directions",
+      "verifiedAt": "2026-08-06",
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Ein+Aviel%2C+Israel&destination=Isfiya%2C+Israel&waypoints=Ramat+Menashe%2C+Israel%7CCarmel+Forest%2C+Israel&travelmode=driving",
+      "distanceKm": 84.4,
+      "durationMinutes": 97,
+      "durationDisplay": "שעה ו-37 דקות",
+      "mode": "driving",
+      "routeLabel": "דרך כביש 67"
+    },
+    "r-c810f3c10d": {
+      "status": "verified",
+      "source": "Google Maps Directions",
+      "verifiedAt": "2026-08-06",
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Dor+Alon+Yakum&destination=Agamon+Hula&waypoints=HaSadna+Motorcycle+Museum+Dafna&travelmode=driving",
+      "distanceKm": 204.0,
+      "durationMinutes": 163,
+      "durationDisplay": "2 שעות ו-43 דקות",
+      "mode": "driving",
+      "routeLabel": "דרך כביש 2 ונתיבי איילון / כביש 20",
+      "warning": "Google Maps מציג אזהרה שהמסלול כרוך בתשלום."
+    },
+    "r-75772b82e7": {
+      "status": "unavailable",
+      "source": "Google Maps Directions",
+      "verifiedAt": "2026-08-06",
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Paz+Hof+HaCarmel&destination=Meitar+Country+Club&waypoints=Cici+Bar+Kfar+Chabad%7CBeit+Kama+Junction%7CNova+Memorial+Reim&travelmode=driving",
+      "distanceKm": null,
+      "durationMinutes": null,
+      "durationDisplay": null,
+      "mode": "driving",
+      "routeLabel": null,
+      "error": "Google Maps לא מצא את נקודת הביניים Cici Bar Kfar Chabad; לא נשמרו מרחק או זמן."
+    }
+  }
+}

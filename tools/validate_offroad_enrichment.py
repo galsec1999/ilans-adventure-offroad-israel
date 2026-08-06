@@ -1,4 +1,4 @@
-"""בדיקות השלמת מטא-דאטה Off-Road — גרסת מסמך 2.1.6; גרסת מוצר 2.2.0."""
+"""בדיקות השלמת מטא-דאטה Off-Road — גרסת מסמך 2.1.7; גרסת מוצר 2.3.0."""
 
 from __future__ import annotations
 
@@ -7,8 +7,8 @@ import re
 from pathlib import Path
 
 
-DATA_DOCUMENT_VERSION = "2.1.5"
-SITE_DOCUMENT_VERSION = "2.1.6"
+DATA_DOCUMENT_VERSION = "2.1.6"
+SITE_DOCUMENT_VERSION = "2.1.7"
 EXPECTED_CARDS = 339
 EXPECTED_TRACK_IDS = 295
 
@@ -47,8 +47,8 @@ def main() -> int:
         if len(ids) == 1 and len(successful) == 1 and successful[0].get("distanceKm") is not None and route.get("distanceKm") is None:
             missing_single_distance.append(route["id"])
 
-    check(routes["documentVersion"] == DATA_DOCUMENT_VERSION, "unchanged routes dataset retains document version 2.1.5")
-    check(metadata["documentVersion"] == DATA_DOCUMENT_VERSION, "unchanged metadata dataset retains document version 2.1.5")
+    check(routes["documentVersion"] == DATA_DOCUMENT_VERSION, "routes dataset document version is 2.1.6")
+    check(metadata["documentVersion"] == DATA_DOCUMENT_VERSION, "metadata dataset document version is 2.1.6")
     check(len(route_items) == EXPECTED_CARDS, "route count remains exactly 339")
     check(len(cards_with_tracks) == 276, "276 cards retain Off-Road track links")
     check(len(all_route_track_ids) == EXPECTED_TRACK_IDS, "295 unique Off-Road track IDs are represented")
@@ -59,17 +59,17 @@ def main() -> int:
     check(not errors, "no metadata fetch errors remain")
     check(all(record.get("distanceKm") is not None for record in verified), "every verified record has source distance")
     check(not missing_single_distance, "single-track cards inherit verified distance when missing")
-    check(metadata_js.startswith("/* מטא-דאטה Off-Road — גרסת מסמך 2.1.5"), "metadata JavaScript shows document version")
+    check(metadata_js.startswith("/* מטא-דאטה Off-Road — גרסת מסמך 2.1.6"), "metadata JavaScript shows document version")
     check("window.OFFROAD_TRACK_METADATA = " in metadata_js, "metadata JavaScript exposes the static dataset")
     check(index.find("offroad-all-metadata.js") < index.find("assets/js/app.js"), "metadata loads before app logic")
     check(index.count('class="route-card') == EXPECTED_CARDS, "static HTML still contains 339 route cards")
-    check(f"גרסת מסמך {SITE_DOCUMENT_VERSION}" in index, "main HTML displays document version 2.1.6")
+    check(f"גרסת מסמך {SITE_DOCUMENT_VERSION}" in index, "main HTML displays document version 2.1.7")
     check('<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">' in index, "main HTML retains noindex policy")
     check("offroad-source-data" in app and "offroadTrackSummaries" in app, "app renders and exports source metadata")
     check("📊 נתוני Off‑Road מן ההקלטה" in app, "WhatsApp invitation includes source metadata")
     check("offroadTrackMetadata:data.offroadTracks" in app, "AI prompt receives source metadata")
     check("offroad-all-metadata.js" in service_worker and SITE_DOCUMENT_VERSION in service_worker, "service worker caches metadata with the current site cache version")
-    check(manifest["document_version"] == SITE_DOCUMENT_VERSION, "manifest document version is 2.1.6")
+    check(manifest["document_version"] == SITE_DOCUMENT_VERSION, "manifest document version is 2.1.7")
     check(re.search(r"User-agent:\s*\*\s*Disallow:\s*/", (root / "robots.txt").read_text(encoding="utf-8")) is not None, "robots.txt still disallows crawling")
     return 0
 

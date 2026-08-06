@@ -1,9 +1,9 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.1.6; גרסת מוצר 2.2.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.1.7; גרסת מוצר 2.3.0 */
 (() => {
   'use strict';
 
-  const PRODUCT_VERSION = '2.2.0';
-  const DOC_VERSION = '2.1.6';
+  const PRODUCT_VERSION = '2.3.0';
+  const DOC_VERSION = '2.1.7';
   const OFFROAD_METADATA = window.OFFROAD_TRACK_METADATA?.records || {};
   const INVITE_STORAGE_KEY = 'routeGuideInviteDefaultsV21';
   const THEME_STORAGE_KEY = 'routeGuideThemeV21';
@@ -97,6 +97,7 @@
     cards.forEach(card => {
       const records = trackRecords(card);
       if (!records.length) return;
+      if ($('.source-facts-static[data-source="offroad"]', card)) return;
       const verified = records.filter(record => record.status === 'verified');
       const primary = verified[0];
 
@@ -154,7 +155,7 @@
     const offroadTracks = trackRecords(card);
     const primarySource = offroadTracks.find(record => record.status === 'verified');
     const sourceActivities = [...new Set(offroadTracks.filter(record => record.status === 'verified').map(record => record.activityDisplay).filter(Boolean))];
-    const mapUrls = [...new Set($$('a[href*="off-road.io/track/"]', card).map(link => link.href))];
+    const mapUrls = [...new Set($$('a[href*="off-road.io/track/"],a[href*="google.com/maps/dir/"]', card).map(link => link.href))];
     const primaryMap = mapUrls[0] || '';
     const trackMatch = primaryMap.match(/\/track\/(\d+)/);
     const photo = $('.route-photo img', card);
@@ -981,8 +982,11 @@
       const trackId = url.match(/\/track\/(\d+)/)?.[1];
       const record = trackId ? data.offroadTracks.find(item => item.trackId === trackId) : null;
       const label = record?.title || (data.mapUrls.length > 1 ? `מפה ${index + 1}` : data.title);
+      const isGoogle = /google\.com\/maps\/dir\//.test(url);
+      const displayLabel = isGoogle ? 'ניווט Google Maps' : label;
+      const linkLabel = isGoogle ? 'פתיחת המסלול ב־Google Maps' : 'פתיחת המסלול ב־Off‑Road';
       const frame = trackId ? `<iframe title="מפת Off‑Road — ${escapeHtml(label)}" loading="lazy" src="https://off-road.io/_v2/track/${trackId}?embedded=true"></iframe>` : '';
-      return `<article class="map-item"><h3>${escapeHtml(label)}</h3><p><a href="${escapeHtml(url)}">פתיחת המסלול ב־Off‑Road</a></p>${frame}</article>`;
+      return `<article class="map-item"><h3>${escapeHtml(displayLabel)}</h3><p><a href="${escapeHtml(url)}">${linkLabel}</a></p>${frame}</article>`;
     }).join('') : '<section class="notice"><h2>ניווט</h2><p>לכרטיס זה אין קישור ניווט מאומת. המוביל חייב להשלים ולאמת ניווט לפני יציאה.</p></section>';
     const sourceSection = data.offroadTracks.length ? `<section class="source-data"><h2>נתוני המקור המלאים מ־Off-Road</h2>${sourceRows}</section>` : '';
     const mapSection = data.mapUrls.length ? `<section class="map"><h2>${data.mapUrls.length > 1 ? 'כל מפות המסלול' : 'מפת המסלול'}</h2>${mapFrames}</section>` : mapFrames;
