@@ -1,12 +1,15 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.1.5; גרסת מוצר 2.1.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.1.6; גרסת מוצר 2.2.0 */
 (() => {
   'use strict';
 
-  const PRODUCT_VERSION = '2.1.0';
-  const DOC_VERSION = '2.1.5';
+  const PRODUCT_VERSION = '2.2.0';
+  const DOC_VERSION = '2.1.6';
   const OFFROAD_METADATA = window.OFFROAD_TRACK_METADATA?.records || {};
   const INVITE_STORAGE_KEY = 'routeGuideInviteDefaultsV21';
   const THEME_STORAGE_KEY = 'routeGuideThemeV21';
+  const VISIT_DAY_STORAGE_KEY = 'routeGuideVisitDayV22';
+  const VISIT_VALUE_STORAGE_KEY = 'routeGuideVisitValueV22';
+  const VISIT_COUNTER_URL = 'https://api.counterapi.dev/v1/ilans-adventure-offroad-israel/site-visits-v1';
   const cards = [...document.querySelectorAll('.route-card')];
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -187,6 +190,63 @@
       cardUrl: `${location.href.split('#')[0]}#${card.id}`
     };
   }
+
+  function addLegacyRouteActions() {
+    cards.forEach(card => {
+      const actions = $('.route-actions', card);
+      if (!actions) return;
+      if (!$('.open-short-invite', actions)) {
+        const shortInvite = document.createElement('button');
+        shortInvite.type = 'button';
+        shortInvite.className = 'open-short-invite legacy-action';
+        shortInvite.textContent = 'הזמנה קצרה ל־WhatsApp';
+        actions.prepend(shortInvite);
+      }
+      if ($('.route-photo img', card) && !$('.download-route-image', actions)) {
+        const downloadImage = document.createElement('button');
+        downloadImage.type = 'button';
+        downloadImage.className = 'download-route-image legacy-action secondary-action';
+        downloadImage.textContent = 'שמירת תמונת אווירה';
+        const shareImage = document.createElement('button');
+        shareImage.type = 'button';
+        shareImage.className = 'share-route-image legacy-action secondary-action';
+        shareImage.textContent = 'שיתוף תמונת אווירה';
+        actions.append(downloadImage, shareImage);
+      }
+    });
+  }
+
+  async function loadVisitCounter() {
+    const countTarget = $('#visitCount');
+    const statusTarget = $('#visitCountStatus');
+    if (!countTarget) return;
+    const cached = Number(localStorage.getItem(VISIT_VALUE_STORAGE_KEY));
+    if (Number.isFinite(cached) && cached >= 0) countTarget.textContent = cached.toLocaleString('he-IL');
+    const today = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Jerusalem'}).format(new Date());
+    const alreadyCountedToday = localStorage.getItem(VISIT_DAY_STORAGE_KEY) === today;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    try {
+      const endpoint = alreadyCountedToday ? VISIT_COUNTER_URL : `${VISIT_COUNTER_URL}/up`;
+      const response = await fetch(endpoint, {cache:'no-store', signal:controller.signal, headers:{Accept:'application/json'}});
+      if (!response.ok) throw new Error(`Counter API ${response.status}`);
+      const payload = await response.json();
+      const value = Number(payload.count ?? payload.value ?? payload.data?.count ?? payload.data?.up_count);
+      if (!Number.isFinite(value) || value < 0) throw new Error('Counter API returned no numeric count');
+      countTarget.textContent = value.toLocaleString('he-IL');
+      localStorage.setItem(VISIT_VALUE_STORAGE_KEY, String(value));
+      if (!alreadyCountedToday) localStorage.setItem(VISIT_DAY_STORAGE_KEY, today);
+      if (statusTarget) statusTarget.textContent = 'מונה ציבורי משוער · נספר פעם ביום בכל מכשיר';
+    } catch (error) {
+      if (statusTarget) statusTarget.textContent = cached >= 0 ? 'הערך האחרון שנשמר במכשיר' : 'המונה אינו זמין כרגע';
+      console.warn('Visit counter unavailable', error);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  addLegacyRouteActions();
+  loadVisitCounter();
 
   async function copyText(text, success = 'הטקסט הועתק') {
     try {
@@ -473,6 +533,23 @@
     ].filter((line, index, all) => line || (index > 0 && all[index - 1])).join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
 
+  function makeShortInvite(card) {
+    const data = routeData(card);
+    const firstMap = data.primaryMap || '';
+    return [
+      `🏍️ ${data.title}`,
+      `📅 ${formatHebrewDate(value('date')) || '[יש להשלים תאריך]'}`,
+      `📍 ${value('meet') || '[יש להשלים נקודת מפגש]'} · מפגש ${value('meetup-time') || '[שעה]'} · יציאה ${value('departure-time') || '[שעה]'}`,
+      `🧭 ${data.region}${data.subregion && data.subregion !== 'לא צוין' ? ` — ${data.subregion}` : ''}`,
+      `⚙️ ${data.difficultySource} · 📏 ${data.distanceDuration} · 🏍️ ${data.routeType}`,
+      `🏁 קצב: ${chosenPace() || '[יש לבחור קצב]'} · עד ${value('limit') || '[X]'} רוכבים`,
+      firstMap ? `🗺️ ${firstMap}` : '🗺️ אין קישור ניווט מאומת — המוביל חייב להשלים ניווט.',
+      value('notes') ? `ℹ️ ${value('notes')}` : '',
+      '⚠️ המדריך אינו אישור למסלול. יש לבדוק פתיחה, חוקיות, מזג אוויר, שטחי אש, ביטחון והתאמה לקבוצה סמוך ליציאה.',
+      `📖 ${data.cardUrl}`
+    ].filter(Boolean).join('\n');
+  }
+
   function setConditionalInviteFields() {
     const custom = value('pace') === 'אחר';
     $('#invite-pace-custom-wrap').hidden = !custom;
@@ -712,6 +789,8 @@
   });
   $('#invite-copy').addEventListener('click', () => { if (validateInvite()) copyText($('#invite-preview').value, 'ההזמנה הועתקה'); });
   $('#invite-whatsapp').addEventListener('click', () => { if (validateInvite()) window.open(`https://wa.me/?text=${encodeURIComponent($('#invite-preview').value)}`, '_blank', 'noopener'); });
+  $('#invite-short-copy').addEventListener('click', () => { if (validateInvite()) copyText(makeShortInvite(activeCard), 'ההזמנה הקצרה הועתקה'); });
+  $('#invite-short-whatsapp').addEventListener('click', () => { if (validateInvite()) window.open(`https://wa.me/?text=${encodeURIComponent(makeShortInvite(activeCard))}`, '_blank', 'noopener'); });
 
   function canvasBlob() {
     return new Promise(resolve => $('#invite-poster').toBlob(resolve, 'image/png', 1));
@@ -730,6 +809,55 @@
     link.click();
     link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1200);
+  }
+
+  function imageExtension(type) {
+    if (/png/i.test(type)) return 'png';
+    if (/webp/i.test(type)) return 'webp';
+    return 'jpg';
+  }
+
+  async function routeImageFile(card) {
+    const data = routeData(card);
+    if (!data.photoUrl) throw new Error('No route image');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    try {
+      const response = await fetch(data.photoUrl, {signal:controller.signal});
+      if (!response.ok) throw new Error(`Image ${response.status}`);
+      const blob = await response.blob();
+      return new File([blob], `תמונת_אווירה_${safeFileName(data.title)}.${imageExtension(blob.type)}`, {type:blob.type || 'image/jpeg'});
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  async function downloadRouteImage(card) {
+    try {
+      const file = await routeImageFile(card);
+      downloadBlob(file, file.name);
+      showToast('תמונת האווירה נשמרה');
+    } catch (error) {
+      console.error(error);
+      showToast('לא ניתן לשמור את תמונת האווירה');
+    }
+  }
+
+  async function shareRouteImage(card) {
+    const data = routeData(card);
+    try {
+      const file = await routeImageFile(card);
+      if (navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))) {
+        await navigator.share({title:data.title, text:`${data.photoCaption || 'תמונת אווירה מכרטיס הטיול.'}\n${data.cardUrl}`, files:[file]});
+        return;
+      }
+      downloadBlob(file, file.name);
+      await copyText(`${data.photoCaption || 'תמונת אווירה מכרטיס הטיול.'}\n${data.cardUrl}`, 'השיתוף אינו נתמך; התמונה נשמרה והכיתוב הועתק');
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+      console.error(error);
+      showToast('לא ניתן לשתף את תמונת האווירה');
+    }
   }
 
   $('#invite-poster-download').addEventListener('click', async () => {
@@ -838,16 +966,30 @@
 
   async function exportTripHtml(card) {
     const data = routeData(card);
+    const meta = cardMeta(card);
     const clone = $('.route-body', card).cloneNode(true);
     $$('.route-actions,.copy-copy,.load-map,.map-slot,button,canvas,script', clone).forEach(node => node.remove());
     $$('[hidden]', clone).forEach(node => node.removeAttribute('hidden'));
     $$('a[href]', clone).forEach(link => link.setAttribute('href', new URL(link.getAttribute('href'), location.href).href));
     await embedLocalImages(clone);
-    const mapFrame = data.trackId ? `<section class="map"><h2>מפת Off‑Road</h2><p><a href="${escapeHtml(data.primaryMap)}">פתיחת המסלול ב־Off‑Road</a></p><iframe title="מפת Off‑Road — ${escapeHtml(data.title)}" loading="lazy" src="https://off-road.io/_v2/track/${data.trackId}?embedded=true"></iframe></section>` : '<section class="notice"><h2>ניווט</h2><p>לכרטיס זה אין קישור ניווט מאומת. המוביל חייב להשלים ולאמת ניווט לפני יציאה.</p></section>';
+    const metaRows = Object.entries(meta).map(([label, value]) => `<div><small>${escapeHtml(label)}</small><b>${escapeHtml(value)}</b></div>`).join('');
+    const sourceRows = data.offroadTracks.map((record, index) => {
+      if (record.status !== 'verified') return `<article class="source-record unavailable"><h3>Track ${escapeHtml(record.trackId)}</h3><p>הנתונים אינם זמינים כעת ב־Off-Road. הקישור נשמר לבדיקה ידנית.</p><p><a href="${escapeHtml(record.publicUrl)}">פתיחת המקור</a></p></article>`;
+      return `<article class="source-record"><h3>${escapeHtml(record.title || `הקלטה ${index + 1}`)}</h3><div class="meta"><div><small>מרחק</small><b>${escapeHtml(Number(record.distanceKm) > 0 ? `${Number(record.distanceKm).toLocaleString('he-IL', {maximumFractionDigits:1})} ק״מ` : 'לא צוין')}</b></div><div><small>משך</small><b>${escapeHtml(record.durationDisplay || 'לא צוין')}</b></div><div><small>פעילות</small><b>${escapeHtml(record.activityDisplay || 'לא צוינה')}</b></div><div><small>קושי</small><b>${escapeHtml(record.difficultyDisplay || 'לא דורג')}</b></div><div><small>בעל הכרטיס במקור</small><b>${escapeHtml(record.ownerDisplayName || 'לא צוין')}</b></div><div><small>עודכן במקור</small><b>${escapeHtml(record.updated ? new Date(record.updated).toLocaleDateString('he-IL') : 'לא צוין')}</b></div></div><p><a href="${escapeHtml(record.publicUrl)}">פתיחת ההקלטה ב־Off-Road</a></p></article>`;
+    }).join('');
+    const mapFrames = data.mapUrls.length ? data.mapUrls.map((url, index) => {
+      const trackId = url.match(/\/track\/(\d+)/)?.[1];
+      const record = trackId ? data.offroadTracks.find(item => item.trackId === trackId) : null;
+      const label = record?.title || (data.mapUrls.length > 1 ? `מפה ${index + 1}` : data.title);
+      const frame = trackId ? `<iframe title="מפת Off‑Road — ${escapeHtml(label)}" loading="lazy" src="https://off-road.io/_v2/track/${trackId}?embedded=true"></iframe>` : '';
+      return `<article class="map-item"><h3>${escapeHtml(label)}</h3><p><a href="${escapeHtml(url)}">פתיחת המסלול ב־Off‑Road</a></p>${frame}</article>`;
+    }).join('') : '<section class="notice"><h2>ניווט</h2><p>לכרטיס זה אין קישור ניווט מאומת. המוביל חייב להשלים ולאמת ניווט לפני יציאה.</p></section>';
+    const sourceSection = data.offroadTracks.length ? `<section class="source-data"><h2>נתוני המקור המלאים מ־Off-Road</h2>${sourceRows}</section>` : '';
+    const mapSection = data.mapUrls.length ? `<section class="map"><h2>${data.mapUrls.length > 1 ? 'כל מפות המסלול' : 'מפת המסלול'}</h2>${mapFrames}</section>` : mapFrames;
     const html = `<!doctype html>
 <html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet"><title>${escapeHtml(data.title)} · גרסת מסמך ${DOC_VERSION}</title>
-<style>:root{color-scheme:light;--ink:#21312b;--forest:#285d45;--clay:#c76a42;--paper:#f7f2e9;--surface:#fffdf8;--line:#d9d0c1}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif;line-height:1.65}.page{max-width:980px;margin:auto;padding:24px}.hero{background:linear-gradient(125deg,#192d25,#3d6b52);color:#fff;border-radius:22px;padding:24px;margin-bottom:18px}.hero h1{margin:.2em 0;font-size:clamp(2rem,6vw,3.7rem)}.version{color:#f4cf9d;font-weight:800}.route-body>*,.map,.notice{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:15px;margin:12px 0}.route-photo{padding:0;background:transparent;border:0}.route-photo img{width:100%;max-height:480px;object-fit:cover;border-radius:16px}.route-photo figcaption{color:#66736d;font-size:.82rem}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.meta div{background:#f5eee3;border:1px solid var(--line);border-radius:10px;padding:9px}.meta small{display:block;color:var(--forest);font-weight:800}.marketing{border-right:6px solid var(--clay)!important}.warning,.notice{border-right:6px solid #a33c3c}.nav-block{border-right:6px solid var(--forest)}.qr{width:130px;height:130px;background:#fff}.map iframe{width:100%;height:620px;border:0;border-radius:12px}.footer{margin-top:20px;border-top:1px solid var(--line);padding-top:14px;color:#66736d}@media(max-width:650px){.page{padding:12px}.meta{grid-template-columns:1fr 1fr}.map iframe{height:480px}}@media print{body{background:#fff}.page{max-width:none}.map iframe{display:none}}</style></head>
-<body><main class="page"><header class="hero"><div class="version">גרסת מוצר ${PRODUCT_VERSION} · גרסת מסמך ${DOC_VERSION}</div><h1>${escapeHtml(data.title)}</h1><p>${escapeHtml(data.region)} · ${escapeHtml(data.difficultySource)} · ${escapeHtml(data.distanceDuration)}</p></header>${clone.innerHTML}${mapFrame}<section class="notice"><h2>אחריות ובטיחות</h2><p>מסמך זה מרכז מידע קיים ואינו אישור שהמסלול פתוח, חוקי, עביר, בטוח או מתאים לקבוצה. המוביל והקבוצה חייבים לבדוק סמוך ליציאה מזג אוויר, שיטפונות, שטחי אש, ביטחון, שמורות, שערים, מצב השטח ורמת הרוכבים. קושי הוא סובייקטיבי.</p></section><footer class="footer"><b>כרטיס טיול עצמאי · גרסת מסמך ${DOC_VERSION}</b><p>מקור הכרטיס בספר: <a href="${escapeHtml(data.cardUrl)}">${escapeHtml(data.cardUrl)}</a></p></footer></main></body></html>`;
+<style>:root{color-scheme:light;--ink:#21312b;--forest:#285d45;--clay:#c76a42;--paper:#f7f2e9;--surface:#fffdf8;--line:#d9d0c1}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif;line-height:1.65}.page{max-width:980px;margin:auto;padding:24px}.hero{background:linear-gradient(125deg,#192d25,#3d6b52);color:#fff;border-radius:22px;padding:24px;margin-bottom:18px}.hero h1{margin:.2em 0;font-size:clamp(2rem,6vw,3.7rem)}.version{color:#f4cf9d;font-weight:800}.route-body>*,.map,.notice,.source-data,.export-overview{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:15px;margin:12px 0}.route-photo{padding:0;background:transparent;border:0}.route-photo img{width:100%;max-height:480px;object-fit:cover;border-radius:16px}.route-photo figcaption{color:#66736d;font-size:.82rem}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.meta div{background:#f5eee3;border:1px solid var(--line);border-radius:10px;padding:9px;overflow-wrap:anywhere}.meta small{display:block;color:var(--forest);font-weight:800}.marketing{border-right:6px solid var(--clay)!important}.warning,.notice{border-right:6px solid #a33c3c}.nav-block,.source-data{border-right:6px solid var(--forest)}.qr{width:130px;height:130px;background:#fff}.source-record,.map-item{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}.map iframe{width:100%;height:620px;border:0;border-radius:12px}.print-action{display:inline-block;border:0;border-radius:10px;background:#fff;color:var(--forest);font-weight:800;padding:10px 14px;cursor:pointer}.footer{margin-top:20px;border-top:1px solid var(--line);padding-top:14px;color:#66736d}@media(max-width:650px){.page{padding:12px}.meta{grid-template-columns:1fr 1fr}.map iframe{height:480px}}@media print{body{background:#fff}.page{max-width:none}.map iframe,.print-action{display:none}}</style></head>
+<body><main class="page"><header class="hero"><div class="version">גרסת מוצר ${PRODUCT_VERSION} · גרסת מסמך ${DOC_VERSION}</div><h1>${escapeHtml(data.title)}</h1><p>${escapeHtml(data.region)} · ${escapeHtml(data.difficultySource)} · ${escapeHtml(data.distanceDuration)}</p><button class="print-action" type="button" onclick="window.print()">הדפסה / שמירה כ־PDF</button></header><section class="export-overview"><h2>כל פרטי הכרטיס</h2><div class="meta">${metaRows}</div></section><div class="route-body">${clone.innerHTML}</div>${sourceSection}${mapSection}<section class="notice"><h2>אחריות ובטיחות</h2><p>מסמך זה מרכז מידע קיים ואינו אישור שהמסלול פתוח, חוקי, עביר, בטוח או מתאים לקבוצה. המוביל והקבוצה חייבים לבדוק סמוך ליציאה מזג אוויר, שיטפונות, שטחי אש, ביטחון, שמורות, שערים, מצב השטח ורמת הרוכבים. קושי הוא סובייקטיבי.</p></section><footer class="footer"><b>כרטיס טיול עצמאי · גרסת מוצר ${PRODUCT_VERSION} · גרסת מסמך ${DOC_VERSION}</b><p>מקור הכרטיס בספר: <a href="${escapeHtml(data.cardUrl)}">${escapeHtml(data.cardUrl)}</a></p><p>התמונות הוטמעו בקובץ. מפות Off‑Road דורשות חיבור לאינטרנט.</p></footer></main></body></html>`;
     const blob = new Blob(['\ufeff', html], {type:'text/html;charset=utf-8'});
     downloadBlob(blob, `${safeFileName(data.title)}_גרסת_מסמך_${DOC_VERSION}.html`);
     showToast('קובץ ה־HTML המלא הורד');
@@ -872,6 +1014,12 @@
     const card = event.target.closest('.route-card');
     if (!card) return;
     if (event.target.closest('.open-invite')) showInvite(card);
+    if (event.target.closest('.open-short-invite')) {
+      showInvite(card);
+      setTimeout(() => $('#invite-short-whatsapp')?.focus(), 0);
+    }
+    if (event.target.closest('.download-route-image')) downloadRouteImage(card);
+    if (event.target.closest('.share-route-image')) shareRouteImage(card);
     if (event.target.closest('.ai-action')) showAi(card);
     if (event.target.closest('.voice-action')) {
       if (speechSynthesis.speaking) { speechSynthesis.cancel(); showToast('ההקראה נעצרה'); }
