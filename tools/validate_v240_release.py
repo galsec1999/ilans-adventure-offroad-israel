@@ -1,4 +1,4 @@
-"""שער איכות למהדורה 2.5.1 — גרסת מסמך 1.0.6; מסמך ראשי 2.3.3."""
+"""שער איכות למהדורה 2.6.0 — גרסת מסמך 1.0.7; מסמך ראשי 2.4.0."""
 
 from __future__ import annotations
 
@@ -8,9 +8,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PRODUCT_VERSION = "2.5.1"
+PRODUCT_VERSION = "2.6.0"
 DATA_PRODUCT_VERSION = "2.5.0"
-DOCUMENT_VERSION = "2.3.3"
+DOCUMENT_VERSION = "2.4.0"
 CARD_RE = re.compile(r'<details class="[^"]*\broute-card\b[^"]*" id="([^"]+)"([^>]*)>(.*?)</details>', re.DOTALL)
 
 
@@ -41,7 +41,7 @@ def main() -> None:
     require(PRODUCT_VERSION in js and DOCUMENT_VERSION in js, "JavaScript versions")
     require(PRODUCT_VERSION in css and DOCUMENT_VERSION in css, "CSS versions")
     require(manifest["version"] == PRODUCT_VERSION and manifest["document_version"] == DOCUMENT_VERSION, "manifest versions")
-    require("2.5.1-doc-2.3.3" in sw and "?v=2.3.3" in sw, "service worker cache version")
+    require("2.6.0-doc-2.4.0" in sw and "?v=2.4.0" in sw, "service worker cache version")
     require(f"גרסת מוצר {PRODUCT_VERSION}" in offline and f"גרסת מסמך {DOCUMENT_VERSION}" in offline, "offline page versions")
 
     require(index.count('class="source-fact-card verified"') == 294, "verified source fact cards: 290 Off-Road and 4 Google")
@@ -86,7 +86,7 @@ def main() -> None:
     require("data-theme=\"dark\"" in css and "THEME_STORAGE_KEY" in js, "dark mode exists")
     require("אין שרת, מפתח API או תשלום" in index and "sk-" not in index and "sk-" not in js, "AI works without embedded API keys")
     require(all(f'id="{name}"' in index for name in ("region", "subregion", "difficulty", "surface", "shape", "status", "quality", "source", "map", "sort")), "all route filters and sorting controls exist")
-    print("PASS: release 2.5.1 quality gate complete")
+    print("PASS: release 2.6.0 quality gate complete")
 
 
 if __name__ == "__main__":
