@@ -1,9 +1,10 @@
 {
-  "title": "תוצאות בקרת איכות למהדורת הספר — גרסת מסמך 1.0.1",
+  "title": "תוצאות בקרת איכות למהדורת הספר — גרסת מסמך 1.0.2",
   "productVersion": "2.4.0",
   "mainDocumentVersion": "2.2.3",
   "testedAt": "2026-08-09",
-  "status": "passed-local-pending-live-publication",
+  "status": "passed-and-live-verified",
+  "publishedCommit": "eceffbbca3f11e97b9e6f47c487e6410bad81dc9",
   "counts": {
     "primaryRoutes": 339,
     "routesWithDistance": 287,
@@ -22,6 +23,8 @@
     "validate_v220_features.py: passed",
     "node --check assets/js/app.js: passed",
     "local browser functional and mobile QA: passed",
-    "live GitHub Pages verification: pending publication"
+    "GitHub Pages deployment: passed",
+    "live HTML, manifest, service worker, icons, robots and no-sitemap verification: passed",
+    "native Chrome install icon: not automated because browser control was unavailable"
   ]
 }
