@@ -1,4 +1,4 @@
-"""הקשחת מטא-דאטה של מקורות לתוך ספר המסלולים — גרסת מסמך 1.1.4; גרסת מוצר 2.4.0."""
+"""הקשחת מטא-דאטה של מקורות לתוך ספר המסלולים — גרסת מסמך 1.2.1; גרסת מוצר 2.5.0."""
 
 from __future__ import annotations
 
@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import Any
 
 
-PRODUCT_VERSION = "2.4.0"
-MAIN_DOCUMENT_VERSION = "2.2.3"
-ROUTES_DOCUMENT_VERSION = "2.1.8"
+PRODUCT_VERSION = "2.5.0"
+MAIN_DOCUMENT_VERSION = "2.3.0"
+ROUTES_DOCUMENT_VERSION = "2.2.1"
 CARD_RE = re.compile(
     r'<details class="(?P<class>[^"]*\broute-card\b[^"]*)" id="(?P<id>[^"]+)"(?P<attrs>[^>]*)>(?P<body>.*?)</details>',
     re.DOTALL,
@@ -67,21 +67,18 @@ def normalized_difficulty(records: list[dict[str, Any]]) -> str | None:
 
 def set_attr(opening: str, name: str, value: str) -> str:
     escaped = esc(value)
-    pattern = re.compile(rf'\s{name}="[^"]*"')
-    if pattern.search(opening):
-        return pattern.sub(f' {name}="{escaped}"', opening, count=1)
+    pattern = re.compile(rf"\s{name}=(['\"])(.*?)\1", re.DOTALL)
+    opening = pattern.sub("", opening)
     return opening[:-1] + f' {name}="{escaped}">'
 
 
 def add_search_text(opening: str, value: str) -> str:
     value = " ".join(str(value).split())
-    match = re.search(r'\sdata-search="([^"]*)"', opening)
-    if not match:
-        return set_attr(opening, "data-search", value)
-    current = " ".join(html.unescape(match.group(1)).split())
-    if value in current:
-        return set_attr(opening, "data-search", current)
-    return set_attr(opening, "data-search", f"{current} {value}".strip())
+    matches = re.findall(r"\sdata-search=(['\"])(.*?)\1", opening, re.DOTALL)
+    parts = [" ".join(html.unescape(content).split()) for _, content in matches]
+    parts.append(value)
+    combined = " ".join(dict.fromkeys(part for part in parts if part))
+    return set_attr(opening, "data-search", combined)
 
 
 def add_summary(body: str, summary: str, chip_class: str) -> str:
@@ -129,6 +126,34 @@ def replace_meta_value(body: str, label: str, value: str) -> str:
     return pattern.sub(lambda item: f'{item.group(1)}{esc(value)}{item.group(2)}', body, count=1)
 
 
+def replace_route_title(body: str, title: str) -> str:
+    pattern = re.compile(r'(<span class="route-title">).*?(</span>)', re.DOTALL)
+    return pattern.sub(lambda item: f'{item.group(1)}{esc(title)}{item.group(2)}', body, count=1)
+
+
+def replace_summary_region(body: str, region: str) -> str:
+    pattern = re.compile(r'(<span class="summary-facts">)(.*?)(</span>)', re.DOTALL)
+    match = pattern.search(body)
+    if not match:
+        return body
+    facts = html.unescape(match.group(2)).split(" · ")
+    if facts:
+        facts[0] = region
+    return body[:match.start(2)] + esc(" · ".join(facts)) + body[match.end(2):]
+
+
+def coordinate_link(point: Any, label: str) -> str:
+    if not isinstance(point, dict):
+        return ""
+    try:
+        latitude = float(point["latitude"])
+        longitude = float(point["longitude"])
+    except (KeyError, TypeError, ValueError):
+        return ""
+    url = f"https://www.google.com/maps/search/?api=1&query={latitude:.6f},{longitude:.6f}"
+    return f'<a href="{esc(url)}" target="_blank" rel="noopener">{esc(label)} {latitude:.5f}, {longitude:.5f}</a>'
+
+
 def inject_before_marketing(body: str, section: str) -> str:
     body = STATIC_SECTION_RE.sub("", body)
     marker = '<section class="marketing">'
@@ -137,8 +162,9 @@ def inject_before_marketing(body: str, section: str) -> str:
     return body.replace(marker, section + "\n" + marker, 1)
 
 
-def offroad_section(records: list[dict[str, Any]]) -> tuple[str, str]:
+def offroad_section(records: list[dict[str, Any]], route: dict[str, Any]) -> tuple[str, str]:
     verified = [item for item in records if item.get("status") == "verified"]
+    audit = route.get("trustAudit") if isinstance(route.get("trustAudit"), dict) else {}
     rows: list[str] = []
     for index, record in enumerate(records, start=1):
         title = record.get("title") or f"Track {record.get('trackId')}"
@@ -166,17 +192,23 @@ def offroad_section(records: list[dict[str, Any]]) -> tuple[str, str]:
             else:
                 community = "לא פורסמו ביקורות מספריות במטא־דאטה"
             attribution = f"בעל ההקלטה במקור: {owner} · עודכן: {updated} · {community}"
+            coordinates = " · ".join(filter(None, (
+                coordinate_link(record.get("start"), "התחלה:"),
+                coordinate_link(record.get("end"), "סיום:"),
+            )))
+            coordinates_html = f'<p class="source-coordinates">{coordinates}</p>' if coordinates else ""
         else:
             facts = ["הנתונים אינם זמינים כעת ב־Off‑Road"]
             status = "הקישור נשמר לבדיקה ידנית"
             css_class = "unavailable"
             description_html = '<p class="source-description missing">מטא־דאטה מפורט אינו זמין כעת.</p>'
             attribution = f"Track {record.get('trackId')} · HTTP {record.get('httpStatus') or 'לא ידוע'}"
+            coordinates_html = ""
         rows.append(
             f'<article class="source-fact-card {css_class}"><h4>הקלטה {index}: '
             f'<a href="{esc(url)}" target="_blank" rel="noopener">{esc(title)}</a></h4>'
             f'<p class="source-primary-facts">{" · ".join(esc(item) for item in facts)}</p>'
-            f'{description_html}<small>{esc(attribution)}<br>{esc(status)}</small></article>'
+            f'{description_html}{coordinates_html}<small>{esc(attribution)}<br>{esc(status)}</small></article>'
         )
     if len(records) == 1 and verified:
         primary = verified[0]
@@ -187,8 +219,32 @@ def offroad_section(records: list[dict[str, Any]]) -> tuple[str, str]:
     else:
         summary = f"Off‑Road: {len(records)} קישורים ללא נתונים זמינים"
     heading = "נתוני Off‑Road קשיחים לכל ההקלטות" if len(records) > 1 else "נתוני Off‑Road קשיחים"
+    canonical_title = str(audit.get("canonicalTitle") or route.get("title") or "לא צוין")
+    canonical_description = str(audit.get("canonicalDescription") or "לא פורסם תיאור נוסף במקור.")
+    archived = audit.get("archivedClassification") if isinstance(audit.get("archivedClassification"), dict) else {}
+    old_title = str(archived.get("title") or "")
+    archived_html = (
+        f'<p><b>כותרת מקומית קודמת שנשמרה לארכיון:</b> {esc(old_title)}</p>'
+        if old_title and old_title != canonical_title else ""
+    )
+    mentions = [str(item) for item in (audit.get("sourcePlaceMentions") or []) if str(item).strip()]
+    mentions_html = (
+        f'<p><b>מקומות ונקודות שצוינו במפורש במקור:</b> {esc(" · ".join(mentions))}</p>'
+        if mentions else '<p><b>מקומות ונקודות:</b> המקור לא סיפק שמות מפורשים נוספים; לא בוצע ניחוש.</p>'
+    )
+    source_area = str(route.get("subregion") or "לא זוהה")
+    trust_html = (
+        '<div class="source-alignment" data-trust-status="source-aligned">'
+        '<h3>התאמת הכרטיס למפה</h3>'
+        f'<p><b>השם המחייב להזמנה ולייצוא:</b> {esc(canonical_title)}</p>'
+        f'<p><b>התיאור המחייב מן המקור:</b> {esc(canonical_description)}</p>'
+        f'<p><b>אזור מיון שנבדק:</b> {esc(route.get("region") or "לא זוהה")} — {esc(source_area)}</p>'
+        f'{mentions_html}{archived_html}'
+        '<p class="source-facts-note">השם, התיאור, המיון והקישור נלקחים מאותה הקלטה. '
+        'הטקסט המקומי הישן נשמר כהקשר בלבד ואינו גובר על נתוני המפה.</p></div>'
+    )
     section = (
-        f'<section class="source-facts-static" data-source="offroad"><h3>{heading}</h3>'
+        f'<section class="source-facts-static" data-source="offroad">{trust_html}<h3>{heading}</h3>'
         f'<div class="source-facts-grid">{"".join(rows)}</div>'
         '<p class="source-facts-note">הנתונים הועתקו ממטא־דאטה של המקור ונשמרו ב־HTML. '
         'הם אינם אישור שהמסלול פתוח, חוקי, עביר, בטוח או מתאים לקבוצה.</p></section>'
@@ -231,8 +287,9 @@ def route_static_payload(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     keys = (
         "trackId", "publicUrl", "status", "title", "distanceKm", "durationMs",
         "durationDisplay", "difficultyLevel", "difficultyDisplay", "activityType",
-        "activityDisplay", "shortDescription", "ownerDisplayName", "created", "updated",
-        "rating", "reviews", "start", "end", "roundTrip", "httpStatus",
+        "activityDisplay", "description", "shortDescription", "ownerDisplayName", "created", "updated",
+        "rating", "reviews", "start", "end", "area", "geohash5", "trackLayerKey",
+        "roundTrip", "httpStatus",
     )
     return [{key: item.get(key) for key in keys} for item in records]
 
@@ -260,7 +317,7 @@ def materialize(root: Path) -> dict[str, int]:
         records = [metadata.get(track_id, {"trackId": track_id, "status": "missing"}) for track_id in track_ids]
         google_record = google_records.get(route_id)
         if records:
-            section, summary = offroad_section(records)
+            section, summary = offroad_section(records, route)
             body = inject_before_marketing(body, section)
             body = add_summary(body, summary, "source-offroad-chip")
             verified = [item for item in records if item.get("status") == "verified"]
@@ -268,6 +325,24 @@ def materialize(root: Path) -> dict[str, int]:
             counts["verifiedTracks"] += len(verified)
             counts["unavailableTracks"] += len(records) - len(verified)
             route["staticSourceMetadata"] = {"source": "Off-Road", "records": route_static_payload(records)}
+            audit = route.get("trustAudit") if isinstance(route.get("trustAudit"), dict) else {}
+            canonical_title = str(audit.get("canonicalTitle") or route.get("title") or "")
+            if len(records) == 1 and canonical_title:
+                body = replace_route_title(body, canonical_title)
+            opening = set_attr(opening, "data-canonical-title", canonical_title)
+            opening = set_attr(opening, "data-canonical-description", str(audit.get("canonicalDescription") or ""))
+            opening = set_attr(opening, "data-region", str(route.get("region") or "לא זוהה"))
+            opening = set_attr(opening, "data-subregion", str(route.get("subregion") or "לא צוין"))
+            opening = set_attr(opening, "data-difficulty", str(route.get("difficulty", {}).get("normalized") or "לא אומת"))
+            if verified:
+                opening = set_attr(opening, "data-difficulty-basis", "offroad-track-source")
+            opening = set_attr(opening, "data-shape", str(route.get("shape") or "לא צוין"))
+            opening = set_attr(opening, "data-surface", "|".join(route.get("surfaces") or ["לא צוין"]))
+            body = replace_summary_region(body, str(route.get("region") or "לא זוהה"))
+            body = replace_meta_value(body, "אזור", str(route.get("region") or "לא זוהה"))
+            body = replace_meta_value(body, "תת־אזור", str(route.get("subregion") or "לא צוין"))
+            body = replace_meta_value(body, "סיווג קושי למסנן", str(route.get("difficulty", {}).get("normalized") or "לא אומת"))
+            body = replace_meta_value(body, "צורת מסלול", str(route.get("shape") or "לא צוין"))
             primary = verified[0] if verified else None
             if primary and primary.get("distanceKm") is not None:
                 opening = set_attr(opening, "data-distance", str(primary["distanceKm"]))
@@ -299,7 +374,15 @@ def materialize(root: Path) -> dict[str, int]:
                 for item in records
                 for key in ("title", "shortDescription", "ownerDisplayName")
             )
-            opening = add_search_text(opening, f"{summary} {source_search}".strip())
+            trust_search = " ".join((
+                canonical_title,
+                str(audit.get("canonicalDescription") or ""),
+                " ".join(str(item) for item in (audit.get("sourcePlaceMentions") or [])),
+                str(route.get("region") or ""),
+                str(route.get("subregion") or ""),
+                str((audit.get("archivedClassification") or {}).get("title") or ""),
+            ))
+            opening = add_search_text(opening, f"{summary} {source_search} {trust_search}".strip())
         elif google_record and google_record.get("status") == "verified":
             section, summary = google_section(google_record)
             body = inject_before_marketing(body, section)
@@ -313,6 +396,10 @@ def materialize(root: Path) -> dict[str, int]:
                 opening = set_attr(opening, "data-distance", str(google_record["distanceKm"]))
                 opening = set_attr(opening, "data-distance-basis", "google-directions")
             route["staticSourceMetadata"] = {"source": "Google Maps Directions", "record": google_record}
+            google_audit = route.get("trustAudit") if isinstance(route.get("trustAudit"), dict) else {}
+            google_title = str(google_audit.get("canonicalTitle") or route.get("title") or "")
+            opening = set_attr(opening, "data-canonical-title", google_title)
+            body = replace_route_title(body, google_title)
             route.setdefault("map", {})["hasDirections"] = True
             route["map"]["directionsStatus"] = "verified"
             route["map"]["directionsUrl"] = google_record.get("url")
@@ -320,7 +407,7 @@ def materialize(root: Path) -> dict[str, int]:
             body = replace_visible_difficulty(body, current_normalized, "קושי לא סופק במקור")
             body = replace_meta_value(body, "דירוג מקור", "Google Maps אינו מספק דירוג קושי")
             body = replace_meta_value(body, "סיווג קושי למסנן", "לא אומת — אין דירוג קושי במקור")
-            opening = add_search_text(opening, summary)
+            opening = add_search_text(opening, f"{summary} {google_title} {' '.join(google_audit.get('sourcePlaceMentions') or [])}")
             counts["google"] += 1
         elif google_record:
             section, summary = google_unavailable_section(google_record)
@@ -341,14 +428,17 @@ def materialize(root: Path) -> dict[str, int]:
     if card_count != len(routes):
         raise ValueError(f"expected {len(routes)} cards, materialized {card_count}")
     updated = updated.replace("גרסת מוצר 2.3.0", f"גרסת מוצר {PRODUCT_VERSION}")
+    updated = updated.replace("גרסת מוצר 2.4.0", f"גרסת מוצר {PRODUCT_VERSION}")
     updated = updated.replace("גרסת מסמך 2.1.7", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("גרסת מסמך 2.2.0", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("גרסת מסמך 2.2.1", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("גרסת מסמך 2.2.2", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("גרסת מסמך 2.2.3", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("?v=2.1.7", f"?v={MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("?v=2.2.0", f"?v={MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("?v=2.2.1", f"?v={MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("?v=2.2.2", f"?v={MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("?v=2.2.3", f"?v={MAIN_DOCUMENT_VERSION}")
     updated = updated.replace("בגרסה 2.3 מוצגים", "בגרסה 2.4 מוצגים")
     updated = updated.replace('<div class="stat"><b>276</b>כרטיסים עם ניווט</div>', '<div class="stat"><b>280</b>כרטיסים עם ניווט</div>')
     routes_doc["productVersion"] = PRODUCT_VERSION

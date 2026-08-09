@@ -1,4 +1,4 @@
-"""השלמת מטא-דאטה Off-Road — גרסת מסמך 2.1.6; גרסת מוצר 2.3.0.
+"""השלמת מטא-דאטה Off-Road — גרסת מסמך 2.2.0; גרסת מוצר 2.5.0.
 
 הכלי קורא את מזהי ה-Track שכבר קיימים בכרטיסי הספר, מושך רק נתוני מקור
 ציבוריים מ-Off-Road, ושומר אותם כ-JSON וכ-JavaScript סטטי לשימוש ה-PWA.
@@ -18,11 +18,11 @@ from pathlib import Path
 from typing import Any
 
 
-PRODUCT_VERSION = "2.3.0"
-DOCUMENT_VERSION = "2.1.6"
+PRODUCT_VERSION = "2.5.0"
+DOCUMENT_VERSION = "2.2.0"
 API_TEMPLATE = "https://api.off-road.io/_ah/api/offroadApi/v2/tracks/trackResult/{track_id}"
 PUBLIC_TEMPLATE = "https://off-road.io/track/{track_id}"
-USER_AGENT = "IlansAdventureGuide/2.3.0 metadata-enrichment"
+USER_AGENT = "IlansAdventureGuide/2.5.0 route-map-trust-audit"
 
 DIFFICULTY_LABELS = {
     0: "לא דורג במקור",
@@ -102,6 +102,7 @@ def normalize_track(track_id: str, payload: dict[str, Any], fetched_at: str) -> 
         "status": "verified",
         "fetchedAt": fetched_at,
         "title": str(track.get("title") or "").strip() or None,
+        "description": str(track.get("description") or "").strip() or None,
         "shortDescription": str(track.get("shortDescription") or "").strip() or None,
         "distanceKm": round(distance, 3) if distance is not None else None,
         "distanceBasis": "track.layersStatistics.distance" if positive_number(layers.get("distance")) else ("track.totalLengthKm" if positive_number(track.get("totalLengthKm")) else None),
@@ -113,6 +114,12 @@ def normalize_track(track_id: str, payload: dict[str, Any], fetched_at: str) -> 
         "activityDisplay": ACTIVITY_LABELS.get(activity_type, activity_type or "לא צוין במקור"),
         "start": coordinate(track.get("start")),
         "end": coordinate(track.get("end")),
+        "area": str(track.get("area") or "").strip() or None,
+        "geohash3": str(track.get("geohash3") or "").strip() or None,
+        "geohash4": str(track.get("geohash4") or "").strip() or None,
+        "geohash5": str(track.get("geohash5") or "").strip() or None,
+        "geohash6": str(track.get("geohash6") or "").strip() or None,
+        "trackLayerKey": str(track.get("trackLayerKey") or "").strip() or None,
         "roundTrip": activities.get("roundTrip") if isinstance(activities.get("roundTrip"), bool) else None,
         "created": track.get("created"),
         "updated": track.get("updated"),
@@ -167,7 +174,8 @@ def compact_for_route(record: dict[str, Any]) -> dict[str, Any]:
     keys = (
         "trackId", "publicUrl", "status", "title", "distanceKm", "durationMs",
         "durationDisplay", "difficultyLevel", "difficultyDisplay", "activityType",
-        "activityDisplay", "start", "end", "roundTrip", "updated", "httpStatus",
+        "activityDisplay", "start", "end", "area", "geohash5", "trackLayerKey",
+        "roundTrip", "updated", "httpStatus",
     )
     return {key: record.get(key) for key in keys}
 

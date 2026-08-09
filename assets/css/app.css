@@ -1,4 +1,4 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.2.3; גרסת מוצר 2.4.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.3.2; גרסת מוצר 2.5.0 */
 :root {
   color-scheme: light;
   --ink:#21312b;
@@ -190,3 +190,7 @@ img{max-width:100%}
 @media(max-width:480px){.route-card summary{grid-template-columns:64px 1fr}.route-thumb{width:64px;height:58px}.num{display:none}.chips{grid-column:2}.meta{grid-template-columns:1fr}.dialog-actions,.route-actions{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 @media print{.toolbar,.route-actions,.copy-copy,.load-map,.map-slot,.qr,.install-button,.hero-actions,.dialog-shell,.toast{display:none!important}.route-card{break-inside:avoid;content-visibility:visible}.route-card:not([open]) .route-body{display:block}.hero{background:#fff;color:#000;padding:8px 0}.hero-copy{color:#222}.stats,.hero-photo{display:none}.safety-content{display:block}.safety-section{break-inside:avoid}.research-note{box-shadow:none}}
+
+.source-alignment{margin:0 0 16px;padding:14px;border:2px solid color-mix(in srgb,var(--success) 60%,var(--line));border-radius:13px;background:color-mix(in srgb,var(--success) 10%,var(--surface))}.source-alignment h3{margin:0 0 8px}.source-alignment p{margin:.45em 0;line-height:1.6}.source-coordinates{direction:rtl}.source-coordinates a{display:inline-block;direction:ltr}.route-trust-release{margin-block:18px;padding:18px;border-right:7px solid var(--success);border-radius:15px;background:color-mix(in srgb,var(--success) 10%,var(--surface));box-shadow:var(--shadow-soft)}.route-trust-release h2{margin-top:0;color:var(--forest)}#invite-map-select-wrap{margin-bottom:10px;padding:10px;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
+
+.geometry-verification{margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--accent) 8%,var(--surface))}.geometry-verification h3,.geometry-verification h4{margin-top:0}.geometry-track+ .geometry-track{border-top:1px solid var(--line);padding-top:12px}.geometry-verification a{font-weight:700}.geometry-verification small{white-space:nowrap}.geometry-verification.unavailable{border-color:var(--warning)}

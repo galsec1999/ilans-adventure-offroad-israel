@@ -1,108 +1,31 @@
-# דוח בקרת איכות — גרסת מסמך 2.2.4
+# דוח בקרת איכות — גרסת מסמך 2.3.0
 
-גרסת מוצר שנבדקה: **2.4.0**
-גרסת המסמך הראשי: **2.2.3**
+גרסת מוצר שנבדקה: **2.5.0**
+גרסת המסמך הראשי: **2.3.2**
+תאריך: **2026-08-09**
 
-## תוצאות עדכניות — 2026-08-09
+## תוצאה מקומית
 
-- עברו ארבעה שערי איכות: `validate_v240_release.py`, `validate_v230_static_metadata.py`, `validate_offroad_enrichment.py`, `validate_v220_features.py`.
-- `node --check assets/js/app.js` עבר ללא שגיאות תחביר.
-- 339/339 כרטיסי המסלול קיימים ומזהיהם ייחודיים.
-- 295/295 מזהי Off‑Road מיוצגים: 290 זמינים ו־5 לא זמינים; אין שגיאות משיכה לא פתורות.
-- 294 כרטיסי מקור זמינים ב־HTML: 290 Off‑Road ו־4 Google; עוד 6 חריגים מוצגים בגלוי: 5 Off‑Road וקישור Google אחד.
-- 62/62 כרטיסים שסיווג הקושי שלהם נגזר מן המקור מציגים אותו בעקביות בכותרת, בצ׳יפ ובנתונים.
-- 100/100 מועמדי מחקר מוצגים רק בספרייה הנפרדת; 46 קישורי ניווט מוצגים ב־45 מקורות.
-- `noindex`, `robots.txt`, היעדר sitemap, נתיבים יחסיים, manifest, icons, Service Worker ומטמון 2.2.3 עברו.
-- בדיקת דפדפן מקומית אישרה חיפוש, סינון, Dark Mode, AI מקומי, מחולל הזמנה עם מפה, ייצוא HTML, מונה כניסות ו־Service Worker פעיל.
-- בדיקת מובייל 412×915 אישרה אפס גלישה אופקית בדף, בכרטיס ובנתוני המקור.
-- GitHub Pages פרס בהצלחה את commit `eceffbbca3f11e97b9e6f47c487e6410bad81dc9`; האתר החי החזיר HTTP 200 לדף הראשי, manifest, Service Worker, JavaScript ושלושת סמלי ה־PWA.
-- באתר החי אומתו גרסת מוצר 2.4.0, גרסת מסמך ראשי 2.2.3, noindex המדויק, robots.txt החוסם הכול והיעדר sitemap.
+כל שבעת שערי הקוד והנתונים עברו ללא כשל: JavaScript, אמינות גאומטרית, התאמת כרטיס–מפה, שחרור, מטא־דאטה קשיח, העשרת Off‑Road ושימור תכונות. `git diff --check` עבר.
 
-## ארכיון בדיקות המהדורה הקודמת
-תוצאה: **עבר — 68/68 בדיקות עברו**
+## כיסוי אמינות
 
-## ספירות מאומתות
+- 339/339 כרטיסים קיבלו תוצאת התאמה.
+- 295/295 מזהי Track נבדקו מחדש; 290 שכבות מפה נפתחו.
+- 285/290 שכבות זמינות תואמות לנקודות המקור; 5/290 מכילות סתירה פנימית מתועדת; 5/295 מקורות אינם זמינים.
+- 551,740 נקודות תוואי ו־20,614 ישויות ממופות נבדקו.
+- 272 כרטיסים כוללים שמות חיפוש גאוגרפיים; לכל שם מוצג מרחק מן הקו.
+- לכל 339 הכרטיסים יש מאפיין חיפוש יחיד; אין כפילות `data-search`.
+- 276 כרטיסי Off‑Road מציגים לוח אימות תוואי; חמש הסתירות מוצגות במפורש.
 
-- כרטיסים: 339.
-- כרטיסים מן המאגר המקורי: 304.
-- כרטיסי Off‑Road חדשים שאומתו: 35.
-- כרטיסים עם ניווט: 276.
-- מזהי Track פעילים וייחודיים בקטלוג: 295.
-- חלוקת שלמות: {"כרטיס שימושי חלקית": 189, "כרטיס מלא": 69, "מידע חסר": 74, "סגור / לא זמין": 7}.
+## שימור מוצר
 
-## בדיקות
+עברו: 339 כרטיסים, 100 מקורות מחקר נפרדים, סינון ומיון, Dark Mode, מונה כניסות, הזמנה עשירה וקצרה, כרזה ו־QR, בחירת מפה בכרטיס רב־מפה, AI מקומי ללא מפתח, הקראה, ייצוא HTML מלא, noindex, robots.txt, היעדר sitemap, manifest יחסי, סמלי PWA ו־Service Worker בנתיב משנה.
 
-1. **עבר — 339 route cards**: found 339
-2. **עבר — 304 legacy cards**: found 304
-3. **עבר — 35 verified Off-Road cards**: found 35
-4. **עבר — unique route ids**: unique 339
-5. **עבר — research cards removed from catalog**: no research lead rendered as a route
-6. **עבר — old appendix removed**: appendix is absent
-7. **עבר — legacy ids and order preserved**: preserved 304 ids
-8. **עבר — every card has an image**: images 339/339
-9. **עבר — every route image has alt**: all route images have alt attributes
-10. **עבר — HTML export on every card**: found 339
-11. **עבר — invite generator on every card**: found 339
-12. **עבר — closed routes keep invite disabled**: disabled 7
-13. **עבר — 276 cards with navigation**: found 276
-14. **עבר — all new Off-Road cards have map link**: 35/35
-15. **עבר — all new Off-Road cards have local QR**: 35/35
-16. **עבר — new cards expose distance**: 35/35
-17. **עבר — new cards disclose source verification**: 35/35
-18. **עבר — new cards include ratings section**: 35/35
-19. **עבר — seven verified Off-Road source photos are local**: found 7
-20. **עבר — quality classification complete**: {"כרטיס שימושי חלקית": 189, "כרטיס מלא": 69, "מידע חסר": 74, "סגור / לא זמין": 7}
-21. **עבר — source classification complete**: all cards have an honest source class
-22. **עבר — original order stored**: 1..339
-23. **עבר — surface false-positive fixed**: לא צוין
-24. **עבר — unverified difficulty stays unknown**: לא אומת
-25. **עבר — alternate hard mention no longer overrides primary**: בינוני
-26. **עבר — legacy difficulty wording preserved**: 12/12 corrected
-27. **עבר — explicit linear route shape takes priority**: 4/4 corrected
-28. **עבר — filter and sort controls exist**: q, region, subregion, difficulty, surface, shape, status, quality, source, map, sort, theme
-29. **עבר — sort modes are declared**: original, title, region, difficulty, quality, distance-asc, distance-desc
-30. **עבר — light theme is first default option**: light, dark, system
-31. **עבר — rich invite controls exist**: 14 required controls
-32. **עבר — invite date and times disable browser autofill**: ["off", "off", "off", "off"]
-33. **עבר — route JSON counts**: 339/304/35
-34. **עבר — research archive preserves 100**: found 100
-35. **עבר — research navigation status matches links**: {"not_found_in_technical_crawl": 55, "technically_discovered_not_route-verified": 45}
-36. **עבר — unavailable archive preserves one**: found 1
-37. **עבר — Off-Road evidence preserves 36**: records 36
-38. **עבר — JSON documents show versions**: 2.1.4
-39. **עבר — safety document versions agree**: 2.1.4/2.1.4 2.1.0/2.1.0
-40. **עבר — stale v2.0 QA artifact removed**: qa-result.json absent
-41. **עבר — 295 live Track ids in catalog**: found 295
-42. **עבר — manifest versions**: 2.1.0/2.1.4
-43. **עבר — manifest relative start and scope**: ./ ./
-44. **עבר — standalone display**: standalone
-45. **עבר — manifest icons exist**: 3 icons
-46. **עבר — PWA icon dimensions**: {"./icons/icon-192.png": [192, 192], "./icons/icon-512.png": [512, 512], "./icons/maskable-512.png": [512, 512]}
-47. **עבר — service worker versioned**: v2.1 namespace
-48. **עבר — service worker deletion scoped**: only own namespace is deleted
-49. **עבר — service worker relative shell**: relative app shell
-50. **עבר — robots.txt blocks crawling**: exact expected content
-51. **עבר — no sitemap**: no sitemap files
-52. **עבר — all HTML has exact noindex**: checked 2 HTML files
-53. **עבר — all shipped HTML shows document version**: checked 2 HTML files
-54. **עבר — main title shows product and document version**: ספר מסלולי האדוונצ׳ר והאופרוד בישראל של אילן · גרסת מוצר 2.1.0 · גרסת מסמך 2.1.4
-55. **עבר — support documents show versions**: README_HE.md, CHANGELOG.md, SOURCE_NOTES.md, BUILD_INFO.txt, QA_REPORT.md
-56. **עבר — app has real sort implementation**: sortCards and distance modes
-57. **עבר — app includes Off-Road maps in invitation**: map list in makeInvite
-58. **עבר — app includes poster and HTML export**: poster + export functions
-59. **עבר — invite map control resets on every opening**: reset label and disabled state
-60. **עבר — invite validates and normalizes time order and whole-number group size**: normalized time order + sanitized integer 1..100
-61. **עבר — poster discloses image provenance**: both image states disclosed
-62. **עבר — HTML export embeds images concurrently with timeout**: bounded concurrent embedding
-63. **עבר — invite errors clear after field correction**: live correction
-64. **עבר — poster share has non-cancel fallback**: download + copy fallback
-65. **עבר — AI prompt requires unknown answer**: explicit unknown rule
-66. **עבר — no private WhatsApp group link embedded**: no private group invite URL
-67. **עבר — index local references exist**: all resolved
-68. **עבר — no base64 images in main HTML**: assets remain external files
+## מגבלה
 
-## מגבלות
+בדיקת GUI סופית למסמך 2.3.2 לא הורשתה בפורט המקומי על ידי הגדרת הרשאה שמורה בדפדפן. בדיקות מבנה, תוכן וקוד עברו; אין בדוח טענה שסמל ההתקנה המקורי של Chrome נבדק אוטומטית בגרסה זו.
 
-- בדיקות אלה מאמתות מבנה, נתונים וקבצים מקומיים. מצב מסלול בשטח אינו ניתן לאימות באמצעות הקוד.
-- התקנת PWA, Service Worker, תצוגת מובייל, מצב כהה, מחולל ההזמנה וייצוא HTML נבדקים גם בדפדפן בנפרד.
-- WhatsApp שולט בתצוגה המקדימה של קישורים; המדריך מספק קישור מפה ישיר אך אינו יכול לכפות תמונת preview בתוך WhatsApp.
+## פרסום
+
+טרם אומת באתר החי בעת כתיבת גרסה זו של הדוח.

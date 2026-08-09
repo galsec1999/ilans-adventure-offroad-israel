@@ -1,9 +1,9 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.2.3; גרסת מוצר 2.4.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.3.2; גרסת מוצר 2.5.0 */
 (() => {
   'use strict';
 
-  const PRODUCT_VERSION = '2.4.0';
-  const DOC_VERSION = '2.2.3';
+  const PRODUCT_VERSION = '2.5.0';
+  const DOC_VERSION = '2.3.2';
   const OFFROAD_METADATA = window.OFFROAD_TRACK_METADATA?.records || {};
   const INVITE_STORAGE_KEY = 'routeGuideInviteDefaultsV21';
   const THEME_STORAGE_KEY = 'routeGuideThemeV21';
@@ -74,6 +74,12 @@
     const prefix = total > 1 ? `הקלטה ${index + 1}: ` : '';
     if (!record || record.status !== 'verified') return `${prefix}הנתונים אינם זמינים עוד ב־Off-Road`;
     return `${prefix}${record.title || `Track ${record.trackId}`} — ${sourceDistanceDuration(record)} · ${record.activityDisplay || 'פעילות לא צוינה'} · ${record.difficultyDisplay || 'קושי לא דורג'}`;
+  }
+
+  function sourceDescription(record) {
+    const description = plain(record?.shortDescription);
+    if (description && !/^https?:\/\//i.test(description) && !/^[^\n]{1,100}\.gpx$/i.test(description)) return description;
+    return record ? `במקור לא פורסם תיאור מסלול נוסף. שם ההקלטה: ${record.title || record.trackId}.` : '';
   }
 
   function addMetaItem(card, label, value) {
@@ -163,9 +169,29 @@
     const qr = $('.nav-block img.qr', card);
     const marketing = plain($('.marketing p', card)?.textContent);
     const factual = sectionText(card, 'תיאור עובדתי') || sectionText(card, 'תיאור המקור') || sectionText(card, 'נתוני המקור');
+    const canonicalTitle = plain(card.dataset.canonicalTitle) || primarySource?.title || cardTitle(card);
+    const canonicalDescription = plain(card.dataset.canonicalDescription)
+      || sourceDescription(primarySource)
+      || factual || marketing || 'בכרטיס לא קיים תיאור מסלול מפורט.';
+    const mapOptions = mapUrls.map((url, index) => {
+      const match = url.match(/\/track\/(\d+)/);
+      const record = match ? OFFROAD_METADATA[match[1]] : null;
+      const mapAnchor = $$('a[href]', card).find(link => link.href === url && $('img.qr', link));
+      return {
+        url,
+        trackId: match?.[1] || '',
+        title: record?.title || (mapUrls.length > 1 ? `מפה ${index + 1}` : canonicalTitle),
+        description: sourceDescription(record) || canonicalDescription,
+        distanceDuration: record ? sourceDistanceDuration(record) : (meta['אורך / זמן'] || 'לא צוין'),
+        difficultySource: record?.difficultyDisplay || meta['דירוג מקור'] || meta['קושי במקור'] || meta['קושי'] || 'לא דורג',
+        routeType: record?.activityDisplay || meta['סוג'] || meta['פעילות במקור'] || 'אופרוד / אדוונצ׳ר',
+        qrUrl: mapAnchor ? ($('img.qr', mapAnchor)?.src || '') : '',
+        record
+      };
+    });
     return {
       id: card.id,
-      title: cardTitle(card),
+      title: canonicalTitle,
       region: meta['אזור'] || card.dataset.region || 'לא צוין',
       subregion: meta['תת־אזור'] || card.dataset.subregion || 'לא צוין',
       start: meta['יציאה'] || meta['נקודת התחלה'] || 'לא צוין',
@@ -176,8 +202,9 @@
       routeType: sourceActivities.length ? sourceActivities.join(' / ') : (meta['סוג'] || meta['פעילות במקור'] || 'אופרוד / אדוונצ׳ר'),
       verificationStatus: card.dataset.status || 'נדרש אימות עדכני',
       quality: card.dataset.quality || 'חלקי',
-      description: marketing || factual || 'בכרטיס לא קיים תיאור מסלול מפורט.',
+      description: canonicalDescription,
       mapUrls,
+      mapOptions,
       offroadTracks,
       offroadTrackSummaries: offroadTracks.map((record, index) => sourceTrackSummary(record, index, offroadTracks.length)),
       primaryMap,
@@ -190,6 +217,27 @@
       warnings: sectionText(card, 'לפני יציאה') || sectionText(card, 'חשוב לפני יציאה'),
       reviews: sectionText(card, 'דירוגי משתמשים'),
       cardUrl: `${location.href.split('#')[0]}#${card.id}`
+    };
+  }
+
+  function invitationRouteData(card) {
+    const data = routeData(card);
+    const selectedUrl = $('#invite-map-select')?.value || data.primaryMap;
+    const selected = data.mapOptions.find(option => option.url === selectedUrl) || data.mapOptions[0];
+    if (!selected) return data;
+    return {
+      ...data,
+      title:selected.title || data.title,
+      description:selected.description || data.description,
+      distanceDuration:selected.distanceDuration || data.distanceDuration,
+      difficultySource:selected.difficultySource || data.difficultySource,
+      routeType:selected.routeType || data.routeType,
+      primaryMap:selected.url,
+      trackId:selected.trackId,
+      qrUrl:selected.qrUrl || '',
+      mapUrls:[selected.url],
+      offroadTracks:selected.record ? [selected.record] : data.offroadTracks,
+      offroadTrackSummaries:selected.record ? [sourceTrackSummary(selected.record, 0, 1)] : data.offroadTrackSummaries
     };
   }
 
@@ -521,7 +569,7 @@
   }
 
   function makeInvite(card) {
-    const data = routeData(card);
+    const data = invitationRouteData(card);
     const registrationMode = value('registration-mode');
     const groupUrl = value('group-url');
     const maps = data.mapUrls;
@@ -567,7 +615,7 @@
   }
 
   function makeShortInvite(card) {
-    const data = routeData(card);
+    const data = invitationRouteData(card);
     const firstMap = data.primaryMap || '';
     return [
       `🏍️ ${data.title}`,
@@ -685,7 +733,7 @@
     if (!activeCard) return;
     const canvas = $('#invite-poster');
     const ctx = canvas.getContext('2d');
-    const data = routeData(activeCard);
+    const data = invitationRouteData(activeCard);
     const width = canvas.width;
     const height = canvas.height;
     ctx.clearRect(0, 0, width, height);
@@ -758,7 +806,16 @@
     activeCard = card;
     const data = routeData(card);
     const defaults = readInviteDefaults();
-    $('#invite-route').textContent = data.title;
+    const mapSelectWrap = $('#invite-map-select-wrap');
+    const mapSelect = $('#invite-map-select');
+    mapSelect.replaceChildren(...data.mapOptions.map((option, index) => {
+      const item = document.createElement('option');
+      item.value = option.url;
+      item.textContent = `${index + 1}. ${option.title} — ${option.distanceDuration}`;
+      return item;
+    }));
+    mapSelectWrap.hidden = data.mapOptions.length <= 1;
+    $('#invite-route').textContent = data.mapOptions[0]?.title || data.title;
     $('#invite-meet').value = data.start !== 'לא צוין' && !/^\d+\.\d+/.test(data.start) ? data.start : '';
     $('#invite-meetup-time').value = defaults.meetupTime || '07:00';
     $('#invite-departure-time').value = defaults.departureTime || '07:15';
@@ -808,7 +865,7 @@
   $('#invite-preview').addEventListener('input', () => { invitePreviewDirty = true; updateCharacterCount(); });
   $('#invite-refresh').addEventListener('click', () => refreshInvite(true));
   $('#invite-map-toggle').addEventListener('click', () => {
-    const data = routeData(activeCard);
+    const data = invitationRouteData(activeCard);
     const slot = $('#invite-map-slot');
     if (!data.trackId || slot.querySelector('iframe')) return;
     const iframe = document.createElement('iframe');
@@ -819,6 +876,16 @@
     slot.appendChild(iframe);
     $('#invite-map-toggle').textContent = 'המפה נטענה';
     $('#invite-map-toggle').disabled = true;
+  });
+  $('#invite-map-select').addEventListener('change', () => {
+    const data = invitationRouteData(activeCard);
+    $('#invite-route').textContent = data.title;
+    $('#invite-map-link').href = data.primaryMap || '#';
+    $('#invite-map-slot').replaceChildren();
+    $('#invite-map-toggle').disabled = false;
+    $('#invite-map-toggle').textContent = 'הצגת המפה בתוך המחולל';
+    invitePreviewDirty = false;
+    refreshInvite(true);
   });
   $('#invite-copy').addEventListener('click', () => { if (validateInvite()) copyText($('#invite-preview').value, 'ההזמנה הועתקה'); });
   $('#invite-whatsapp').addEventListener('click', () => { if (validateInvite()) window.open(`https://wa.me/?text=${encodeURIComponent($('#invite-preview').value)}`, '_blank', 'noopener'); });

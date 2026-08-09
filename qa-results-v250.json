@@ -1,0 +1,30 @@
+{
+  "title": "תוצאות שערי האיכות למהדורת אמינות — גרסת מסמך 1.0.0",
+  "productVersion": "2.5.0",
+  "mainDocumentVersion": "2.3.2",
+  "date": "2026-08-09",
+  "status": "passed-local",
+  "counts": {
+    "routeCards": 339,
+    "trackIds": 295,
+    "mapLayersOpened": 290,
+    "geometryAligned": 285,
+    "sourceInconsistencies": 5,
+    "sourceUnavailable": 5,
+    "routePointsInspected": 551740,
+    "osmFeaturesConsidered": 20614,
+    "cardsWithGeometrySearchPlaces": 272
+  },
+  "gates": [
+    "node --check assets/js/app.js",
+    "tools/validate_v250_geometry_trust.py",
+    "tools/validate_v250_route_map_trust.py",
+    "tools/validate_v240_release.py",
+    "tools/validate_v230_static_metadata.py",
+    "tools/validate_offroad_enrichment.py",
+    "tools/validate_v220_features.py",
+    "git diff --check"
+  ],
+  "browserFinalDocument": "blocked-by-saved-user-permission",
+  "liveDeployment": "pending"
+}
