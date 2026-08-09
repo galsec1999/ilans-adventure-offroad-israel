@@ -1,4 +1,4 @@
-"""ביקורת התאמת כרטיס–מפה — גרסת מסמך 1.0.0; גרסת מוצר 2.5.0.
+"""ביקורת התאמת כרטיס–מפה — גרסת מסמך 1.1.0; גרסת מוצר 2.7.0.
 
 הכלי עובר על כל 339 הכרטיסים. ב־Off-Road הוא מתייחס למטא־דאטה של ה־Track
 כמקור המחייב לשם, תיאור, אזור, קושי, פעילות וצורת המסלול. תוכן מקומי קודם
@@ -15,9 +15,9 @@ from pathlib import Path
 from typing import Any
 
 
-PRODUCT_VERSION = "2.5.0"
-DOCUMENT_VERSION = "1.0.0"
-ROUTES_DOCUMENT_VERSION = "2.2.1"
+PRODUCT_VERSION = "2.7.0"
+DOCUMENT_VERSION = "1.1.0"
+ROUTES_DOCUMENT_VERSION = "2.3.0"
 
 AREA_LABELS = {
     "HERMON_GOLAN_ETZBA_GALIL": ("צפון", "חרמון, גולן ואצבע הגליל"),

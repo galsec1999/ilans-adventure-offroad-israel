@@ -1,9 +1,9 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.4.0; גרסת מוצר 2.6.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.5.0; גרסת מוצר 2.7.0 */
 (() => {
   'use strict';
 
-  const PRODUCT_VERSION = '2.6.0';
-  const DOC_VERSION = '2.4.0';
+  const PRODUCT_VERSION = '2.7.0';
+  const DOC_VERSION = '2.5.0';
   const OFFROAD_METADATA = window.OFFROAD_TRACK_METADATA?.records || {};
   const INVITE_STORAGE_KEY = 'routeGuideInviteDefaultsV21';
   const THEME_STORAGE_KEY = 'routeGuideThemeV21';

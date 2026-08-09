@@ -1,8 +1,8 @@
 {
-  "title": "מטא-דאטה מאומת לקישורי Google Maps Directions — גרסת מסמך 1.0.2",
-  "productVersion": "2.4.0",
-  "documentVersion": "1.0.2",
-  "generatedAt": "2026-08-06",
+  "title": "מטא-דאטה מאומת לקישורי Google Maps Directions — גרסת מסמך 1.1.0",
+  "productVersion": "2.7.0",
+  "documentVersion": "1.1.0",
+  "generatedAt": "2026-08-09",
   "policy": "המרחק והזמן נשמרו מתוצאת מסלול הנהיגה שהוצגה בקישור המקורי. זמן הנסיעה תלוי תנועה, חסימות ושינויים בשירות. לא הוסק דירוג קושי מ-Google Maps.",
   "records": {
     "r-405491051a": {
@@ -52,16 +52,16 @@
       "warning": "Google Maps מציג אזהרה שהמסלול כרוך בתשלום."
     },
     "r-75772b82e7": {
-      "status": "unavailable",
+      "status": "verified",
       "source": "Google Maps Directions",
-      "verifiedAt": "2026-08-06",
+      "verifiedAt": "2026-08-09",
       "url": "https://www.google.com/maps/dir/?api=1&origin=Paz+Hof+HaCarmel&destination=Meitar+Country+Club&waypoints=Cici+Bar+Kfar+Chabad%7CBeit+Kama+Junction%7CNova+Memorial+Reim&travelmode=driving",
       "distanceKm": null,
       "durationMinutes": null,
       "durationDisplay": null,
       "mode": "driving",
-      "routeLabel": null,
-      "error": "Google Maps לא מצא את נקודת הביניים Cici Bar Kfar Chabad; לא נשמרו מרחק או זמן."
+      "routeLabel": "חוף הכרמל – כפר חב״ד – בית קמה – אתר נובה – מיתר",
+      "warning": "הקישור נפתח ונקודות הדרך נשמרו, אך לא נשמרו מרחק וזמן משום ש-Google לא החזיר אותם באופן יציב. יש לבדוק את הנתיב המוצע לפני היציאה."
     }
   }
 }

@@ -1,4 +1,4 @@
-"""אימות תוואי מפות Off-Road ונקודות ציון — גרסת מסמך 1.0.0; מוצר 2.5.0."""
+"""אימות תוואי מפות Off-Road ונקודות ציון — גרסת מסמך 1.1.0; מוצר 2.7.0."""
 
 from __future__ import annotations
 
@@ -14,9 +14,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-PRODUCT_VERSION = "2.5.0"
-DOCUMENT_VERSION = "1.0.0"
-USER_AGENT = "IlansAdventureRouteBook/2.5 route-trust-audit"
+PRODUCT_VERSION = "2.7.0"
+DOCUMENT_VERSION = "1.1.0"
+USER_AGENT = "IlansAdventureRouteBook/2.7 navigation-completion-audit"
 LAYER_URL = "https://api.off-road.io/_ah/api/offroadApi/v2/trackLayers/{layer_key}?access_token="
 BREAK_URL = "https://parse.off-road.io/v2/layers/{layer_key}/break?access_token="
 OVERPASS_ENDPOINTS = (

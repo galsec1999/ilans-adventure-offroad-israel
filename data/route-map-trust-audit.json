@@ -1,16 +1,16 @@
 {
   "title": "ביקורת התאמת כרטיס–מפה לכל מסלולי הספר — גרסת מסמך 1.0.1",
-  "productVersion": "2.5.0",
-  "routesDocumentVersion": "2.2.2",
-  "generatedAt": "2026-08-09T08:38:49Z",
+  "productVersion": "2.7.0",
+  "routesDocumentVersion": "2.3.0",
+  "generatedAt": "2026-08-09T16:36:11Z",
   "policy": "339 כרטיסים נבדקו. מקומות ומילות חיפוש מוצגים רק כציטוטי מקור או נתוני אזור של API; אין ניחוש שמות מקום מקואורדינטות.",
   "counts": {
     "total": 339,
-    "verified-source-aligned": 260,
+    "verified-source-aligned": 280,
     "multiple-source-maps": 12,
-    "google-source-aligned": 4,
-    "no-map-to-compare": 58,
-    "source-unavailable": 5
+    "google-source-aligned": 5,
+    "no-map-to-compare": 38,
+    "source-unavailable": 4
   },
   "entries": [
     {
@@ -1282,8 +1282,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "צפון",
-      "resolvedSubregion": "כרמל, רמות מנשה והעמקים",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -2344,16 +2344,27 @@
     {
       "routeId": "r-7cf3c9d429",
       "localTitleBeforeAudit": "טיול מדברי בגשם - “קל+”",
-      "canonicalTitle": "טיול מדברי בגשם - “קל+”",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
-      "resolvedRegion": "מרכז",
-      "resolvedSubregion": "השרון, עמק חפר ומישור החוף",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "canonicalTitle": "מחליקים אל המדבר",
+      "trackIds": [
+        "6213988154867712"
+      ],
+      "sourceTitles": [
+        "מחליקים אל המדבר"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
+      "resolvedRegion": "דרום ומדבר",
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
+      "sourcePlaceMentions": [
+        "מחליקים אל המדבר"
+      ],
+      "titleTokenOverlap": [
+        "המדבר",
+        "מחליקים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-c9a716eb76",
@@ -2502,16 +2513,33 @@
     {
       "routeId": "r-f7aed625a3",
       "localTitleBeforeAudit": "רמת החייל לכפר סבא דרך מקורות הירקון",
-      "canonicalTitle": "רמת החייל לכפר סבא דרך מקורות הירקון",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "ירקון 05/05/2026 גדה דרומית רמת החייל למקורות הירקון",
+      "trackIds": [
+        "6577012560625664"
+      ],
+      "sourceTitles": [
+        "ירקון 05/05/2026\nגדה דרומית\nרמת החייל למקורות הירקון"
+      ],
+      "sourceAreas": [
+        "MISHOR_GUSH_DAN"
+      ],
       "resolvedRegion": "מרכז",
-      "resolvedSubregion": "השרון, עמק חפר ומישור החוף",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "מישור החוף וגוש דן",
+      "sourcePlaceMentions": [
+        "ירקון",
+        "רמת החייל למקורות הירקון"
+      ],
+      "titleTokenOverlap": [
+        "גדה",
+        "דרומית",
+        "החייל",
+        "הירקון",
+        "ירקון",
+        "למקורות",
+        "רמת"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-5878793b20",
@@ -3320,16 +3348,30 @@
     {
       "routeId": "r-d9b300f866",
       "localTitleBeforeAudit": "לטרון – מבוא חורון, שלב ב׳ עם מקטע מעט אתגרי",
-      "canonicalTitle": "לטרון – מבוא חורון, שלב ב׳ עם מקטע מעט אתגרי",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "לטרון למבוא חורון -",
+      "trackIds": [
+        "6210650408222720"
+      ],
+      "sourceTitles": [
+        "לטרון למבוא חורון -"
+      ],
+      "sourceAreas": [
+        "JERUSALEM_MOUNT_SHFELA"
+      ],
       "resolvedRegion": "מרכז",
-      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "ירושלים, הרי יהודה והשפלה",
+      "sourcePlaceMentions": [
+        "לטרון למבוא חורון",
+        "דרך בורמה",
+        "פארק איילון. מסלול קל עם מעט אתגרים. עשה"
+      ],
+      "titleTokenOverlap": [
+        "חורון",
+        "לטרון",
+        "למבוא"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-fa62a880a7",
@@ -4352,16 +4394,26 @@
     {
       "routeId": "r-b17217ed50",
       "localTitleBeforeAudit": "אימון חול בצאלים",
-      "canonicalTitle": "אימון חול בצאלים",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "ים החולות הגדול",
+      "trackIds": [
+        "6154984548466688"
+      ],
+      "sourceTitles": [
+        "ים החולות הגדול"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "הנגב המערבי וצפון הנגב",
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
       "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "titleTokenOverlap": [
+        "הגדול",
+        "החולות",
+        "ים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-57078208e0",
@@ -4502,15 +4554,15 @@
       "canonicalTitle": "חוף הכרמל – כפר חב״ד – בית קמה – אתר נובה – מיתר",
       "trackIds": [],
       "sourceTitles": [
-        null
+        "חוף הכרמל – כפר חב״ד – בית קמה – אתר נובה – מיתר"
       ],
       "sourceAreas": [],
       "resolvedRegion": "דרום ומדבר",
       "resolvedSubregion": "הנגב המערבי וצפון הנגב",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
-      "status": "source-unavailable",
-      "confidence": "limited"
+      "status": "google-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-c4dd975d24",
@@ -4689,8 +4741,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "הנגב המערבי וצפון הנגב",
+      "resolvedRegion": "צפון",
+      "resolvedSubregion": "עמק המעיינות, רמות מנשה והכרמל",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -4863,16 +4915,30 @@
     {
       "routeId": "r-71bebf437c",
       "localTitleBeforeAudit": "המכתש הקטן – נחל חצרה – נחל צין – נחל אמציהו",
-      "canonicalTitle": "המכתש הקטן – נחל חצרה – נחל צין – נחל אמציהו",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "עולים את מעלה חצרה - טיול מועדון KTM",
+      "trackIds": [
+        "4915330288451584"
+      ],
+      "sourceTitles": [
+        "עולים את מעלה חצרה - טיול מועדון KTM"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
+      "sourcePlaceMentions": [
+        "עולים את מעלה חצרה"
+      ],
+      "titleTokenOverlap": [
+        "ktm",
+        "חצרה",
+        "מועדון",
+        "מעלה",
+        "עולים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-77d379186b",
@@ -4881,8 +4947,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -5111,16 +5177,27 @@
     {
       "routeId": "r-a642fe0e14",
       "localTitleBeforeAudit": "״מחליקים אל המדבר״ – חצרון, ארנב ושפן",
-      "canonicalTitle": "״מחליקים אל המדבר״ – חצרון, ארנב ושפן",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "מחליקים אל המדבר",
+      "trackIds": [
+        "6213988154867712"
+      ],
+      "sourceTitles": [
+        "מחליקים אל המדבר"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
+      "sourcePlaceMentions": [
+        "מחליקים אל המדבר"
+      ],
+      "titleTokenOverlap": [
+        "המדבר",
+        "מחליקים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-9023b034f0",
@@ -5230,30 +5307,58 @@
     {
       "routeId": "r-56d639b3de",
       "localTitleBeforeAudit": "נחל נקרות מחאן בארות",
-      "canonicalTitle": "נחל נקרות מחאן בארות",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "מגזגזים את נחל נקרות בסופת ביירן",
+      "trackIds": [
+        "5529651773177856"
+      ],
+      "sourceTitles": [
+        "מגזגזים את נחל נקרות בסופת ביירן"
+      ],
+      "sourceAreas": [
+        "NEGEV_CENTER_MACHTESHIM"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "מרכז הנגב והמכתשים",
+      "sourcePlaceMentions": [
+        "מגזגזים את נחל נקרות בסופת ביירן"
+      ],
+      "titleTokenOverlap": [
+        "ביירן",
+        "בסופת",
+        "מגזגזים",
+        "נחל",
+        "נקרות"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-ca83b10320",
       "localTitleBeforeAudit": "נחל פרצים – נחל אמציהו – מעלה חצרה",
-      "canonicalTitle": "נחל פרצים – נחל אמציהו – מעלה חצרה",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "עולים את מעלה חצרה - טיול מועדון KTM",
+      "trackIds": [
+        "4915330288451584"
+      ],
+      "sourceTitles": [
+        "עולים את מעלה חצרה - טיול מועדון KTM"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
+      "sourcePlaceMentions": [
+        "עולים את מעלה חצרה"
+      ],
+      "titleTokenOverlap": [
+        "ktm",
+        "חצרה",
+        "מועדון",
+        "מעלה",
+        "עולים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-849a45bc1c",
@@ -5319,44 +5424,95 @@
     {
       "routeId": "r-28da220035",
       "localTitleBeforeAudit": "עונתי: חצרון – ארנב – שפן אחרי גשם",
-      "canonicalTitle": "עונתי: חצרון – ארנב – שפן אחרי גשם",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "מחליקים אל המדבר",
+      "trackIds": [
+        "6213988154867712"
+      ],
+      "sourceTitles": [
+        "מחליקים אל המדבר"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
+      "sourcePlaceMentions": [
+        "מחליקים אל המדבר"
+      ],
+      "titleTokenOverlap": [
+        "המדבר",
+        "מחליקים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-e72ebfef17",
       "localTitleBeforeAudit": "ערד – הר יהל – הר כיפון – נחל חמר – נחל סדום – מישור עמיעז",
-      "canonicalTitle": "ערד – הר יהל – הר כיפון – נחל חמר – נחל סדום – מישור עמיעז",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "ערד הר כיפון נחל חמר נחל סדום מישור עמיעז",
+      "trackIds": [
+        "4990937580961792"
+      ],
+      "sourceTitles": [
+        "ערד הר כיפון נחל חמר נחל סדום מישור עמיעז"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
+      "sourcePlaceMentions": [
+        "ערד הר כיפון נחל חמר נחל סדום מישור עמיעז",
+        "יציאה מדלק ערד",
+        "לאחר מכן עולים לתצפית נחל חמר",
+        "במסלול זה בחרנו לקצר ולסיים במפעלי ים המלח"
+      ],
+      "titleTokenOverlap": [
+        "הר",
+        "חמר",
+        "כיפון",
+        "מישור",
+        "נחל",
+        "סדום",
+        "עמיעז",
+        "ערד"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-c29da41ba8",
       "localTitleBeforeAudit": "ערד-הרי יהל וכיפון-נחל חמר-נחל סדום-מישור עמיעז",
-      "canonicalTitle": "ערד-הרי יהל וכיפון-נחל חמר-נחל סדום-מישור עמיעז",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "ערד הר כיפון נחל חמר נחל סדום מישור עמיעז",
+      "trackIds": [
+        "4990937580961792"
+      ],
+      "sourceTitles": [
+        "ערד הר כיפון נחל חמר נחל סדום מישור עמיעז"
+      ],
+      "sourceAreas": [
+        "NEGEV_NORTH"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "ים המלח, הר הנגב והערבה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שפלת הדרום וצפון הנגב",
+      "sourcePlaceMentions": [
+        "ערד הר כיפון נחל חמר נחל סדום מישור עמיעז",
+        "יציאה מדלק ערד",
+        "לאחר מכן עולים לתצפית נחל חמר",
+        "במסלול זה בחרנו לקצר ולסיים במפעלי ים המלח"
+      ],
+      "titleTokenOverlap": [
+        "הר",
+        "חמר",
+        "כיפון",
+        "מישור",
+        "נחל",
+        "סדום",
+        "עמיעז",
+        "ערד"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-3a237f583a",
@@ -5375,16 +5531,32 @@
     {
       "routeId": "r-5b48b0afbf",
       "localTitleBeforeAudit": "נקודת עניין: עין מאהר / עין מח״ר ליד מבוא חורון",
-      "canonicalTitle": "נקודת עניין: עין מאהר / עין מח״ר ליד מבוא חורון",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "כסלון אבו גוש נחל אילן עין מח\"ר",
+      "trackIds": [
+        "5184467687440384"
+      ],
+      "sourceTitles": [
+        "כסלון אבו גוש נחל אילן עין מח\"ר"
+      ],
+      "sourceAreas": [
+        "JERUSALEM_MOUNT_SHFELA"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "ירושלים, הרי יהודה והשפלה",
+      "sourcePlaceMentions": [
+        "כסלון אבו גוש נחל אילן עין מח\"ר"
+      ],
+      "titleTokenOverlap": [
+        "אבו",
+        "אילן",
+        "גוש",
+        "כסלון",
+        "מח",
+        "נחל",
+        "עין"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-1fe50a3db2",
@@ -5439,16 +5611,30 @@
     {
       "routeId": "r-a3a75b4d0a",
       "localTitleBeforeAudit": "אלכסנדרוני והג׳יפטליק",
-      "canonicalTitle": "אלכסנדרוני והג׳יפטליק",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "נלחמים במעלות - אלכסנדרוני וג׳יפטליק",
+      "trackIds": [
+        "4828634172620800"
+      ],
+      "sourceTitles": [
+        "נלחמים במעלות - אלכסנדרוני וג׳יפטליק"
+      ],
+      "sourceAreas": [
+        "SHOMRON_BINYAMIN"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שומרון ובנימין",
+      "sourcePlaceMentions": [
+        "אלכסנדרוני וג׳יפטליק"
+      ],
+      "titleTokenOverlap": [
+        "אלכסנדרוני",
+        "במעלות",
+        "וג",
+        "יפטליק",
+        "נלחמים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-6f3cbc92ab",
@@ -5630,8 +5816,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -5851,16 +6037,27 @@
     {
       "routeId": "r-daa57941cc",
       "localTitleBeforeAudit": "דרך שמוט – נחל מכוך – מעלה כוכב השחר",
-      "canonicalTitle": "דרך שמוט – נחל מכוך – מעלה כוכב השחר",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "עולה עולה! תמעלה",
+      "trackIds": [
+        "4724504616763392"
+      ],
+      "sourceTitles": [
+        "עולה עולה! תמעלה"
+      ],
+      "sourceAreas": [
+        "JLM"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "ירושלים והסביבה",
+      "sourcePlaceMentions": [
+        "עולה עולה! תמעלה"
+      ],
+      "titleTokenOverlap": [
+        "עולה",
+        "תמעלה"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-60daa2e1b7",
@@ -6107,16 +6304,30 @@
     {
       "routeId": "r-8843d04170",
       "localTitleBeforeAudit": "כפר אדומים – מרסבא – מצוקי דרגות",
-      "canonicalTitle": "כפר אדומים – מרסבא – מצוקי דרגות",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "מרסבא אתגרי בתוספת סיבוב המוות",
+      "trackIds": [
+        "5856218108919808"
+      ],
+      "sourceTitles": [
+        "מרסבא אתגרי בתוספת סיבוב המוות"
+      ],
+      "sourceAreas": [
+        "JLM"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "ירושלים והסביבה",
+      "sourcePlaceMentions": [
+        "מרסבא אתגרי בתוספת סיבוב המוות"
+      ],
+      "titleTokenOverlap": [
+        "אתגרי",
+        "בתוספת",
+        "המוות",
+        "מרסבא",
+        "סיבוב"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-884dd6d40e",
@@ -6590,8 +6801,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -6659,16 +6870,29 @@
     {
       "routeId": "r-ed155a9126",
       "localTitleBeforeAudit": "סרטבה אופרוד — עליות, ירידות ועינות פצאל",
-      "canonicalTitle": "סרטבה אופרוד — עליות, ירידות ועינות פצאל",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "עולים ויורדים מסביב לסרטבה",
+      "trackIds": [
+        "4754005916647424"
+      ],
+      "sourceTitles": [
+        "עולים ויורדים מסביב לסרטבה"
+      ],
+      "sourceAreas": [
+        "SHOMRON_BINYAMIN"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "resolvedSubregion": "שומרון ובנימין",
+      "sourcePlaceMentions": [
+        "עולים ויורדים מסביב לסרטבה"
+      ],
+      "titleTokenOverlap": [
+        "ויורדים",
+        "לסרטבה",
+        "מסביב",
+        "עולים"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-0a30584564",
@@ -6816,16 +7040,26 @@
     {
       "routeId": "r-fc992adf46",
       "localTitleBeforeAudit": "צומת אלמוג – נעמ״ה – ערוצי הבקעה",
-      "canonicalTitle": "צומת אלמוג – נעמ״ה – ערוצי הבקעה",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "בקעה בשיפוע 45 מעלות",
+      "trackIds": [
+        "5168691605667840"
+      ],
+      "sourceTitles": [
+        "בקעה בשיפוע 45 מעלות"
+      ],
+      "sourceAreas": [
+        "SHOMRON_BINYAMIN"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
+      "resolvedSubregion": "שומרון ובנימין",
       "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "titleTokenOverlap": [
+        "בקעה",
+        "בשיפוע",
+        "מעלות"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-f007f83fee",
@@ -6892,16 +7126,28 @@
     {
       "routeId": "r-1bcb00c255",
       "localTitleBeforeAudit": "טיול קל: מפגש הבקעה – פסגת סרטבה – עיינות פצאל",
-      "canonicalTitle": "טיול קל: מפגש הבקעה – פסגת סרטבה – עיינות פצאל",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
+      "canonicalTitle": "אופנועים סובב פצאל לסרטבה ולעוגה וחזרה 69 קמ.gpx",
+      "trackIds": [
+        "4797816835407872"
+      ],
+      "sourceTitles": [
+        "אופנועים סובב פצאל לסרטבה ולעוגה וחזרה 69 קמ.gpx"
+      ],
+      "sourceAreas": [
+        "SHOMRON_BINYAMIN"
+      ],
       "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
+      "resolvedSubregion": "שומרון ובנימין",
       "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "titleTokenOverlap": [
+        "וחזרה",
+        "ולעוגה",
+        "לסרטבה",
+        "פצאל",
+        "קמ"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-e08de2417a",
@@ -6910,8 +7156,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "דרום ומדבר",
-      "resolvedSubregion": "שומרון, בקעת הירדן ומדבר יהודה",
+      "resolvedRegion": "צפון",
+      "resolvedSubregion": "כרמל, רמות מנשה והעמקים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -7011,16 +7257,29 @@
     {
       "routeId": "r-691f9a6f2f",
       "localTitleBeforeAudit": "חוות אל נווה – חוות ארץ קמה – שאנור – עין יהודה",
-      "canonicalTitle": "חוות אל נווה – חוות ארץ קמה – שאנור – עין יהודה",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "canonicalTitle": "שדות הטבק ועין יהודה",
+      "trackIds": [
+        "4842310306889728"
+      ],
+      "sourceTitles": [
+        "שדות הטבק ועין יהודה"
+      ],
+      "sourceAreas": [
+        "CARMEL_RAMOT_MENASHE"
+      ],
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "השרון, עמק חפר ומישור החוף",
+      "sourcePlaceMentions": [
+        "שדות הטבק ועין יהודה"
+      ],
+      "titleTokenOverlap": [
+        "הטבק",
+        "ועין",
+        "יהודה",
+        "שדות"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-590b69c9eb",
@@ -7029,8 +7288,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -7161,8 +7420,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -7171,16 +7430,30 @@
     {
       "routeId": "r-58eb4ab434",
       "localTitleBeforeAudit": "מעלה ערוגות — מסלול טכני למנוסים",
-      "canonicalTitle": "מעלה ערוגות — מסלול טכני למנוסים",
-      "trackIds": [],
-      "sourceTitles": [],
-      "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
-      "sourcePlaceMentions": [],
-      "titleTokenOverlap": [],
-      "status": "no-map-to-compare",
-      "confidence": "none"
+      "canonicalTitle": "עליות ומורדות סביב נחל ערוגות",
+      "trackIds": [
+        "6315700405403648"
+      ],
+      "sourceTitles": [
+        "עליות ומורדות סביב נחל ערוגות"
+      ],
+      "sourceAreas": [
+        "DEAD_SEA_MIDBAR_YEHIDA"
+      ],
+      "resolvedRegion": "דרום ומדבר",
+      "resolvedSubregion": "ים המלח ומדבר יהודה",
+      "sourcePlaceMentions": [
+        "עליות ומורדות סביב נחל ערוגות"
+      ],
+      "titleTokenOverlap": [
+        "ומורדות",
+        "נחל",
+        "סביב",
+        "עליות",
+        "ערוגות"
+      ],
+      "status": "verified-source-aligned",
+      "confidence": "high"
     },
     {
       "routeId": "r-6f02f8ba28",
@@ -7189,8 +7462,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -7203,8 +7476,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -7285,8 +7558,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -7329,8 +7602,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -7371,8 +7644,8 @@
       "trackIds": [],
       "sourceTitles": [],
       "sourceAreas": [],
-      "resolvedRegion": "לא זוהה",
-      "resolvedSubregion": "אזור לא מזוהה",
+      "resolvedRegion": "מרכז",
+      "resolvedSubregion": "לטרון, שפלת יהודה והרי ירושלים",
       "sourcePlaceMentions": [],
       "titleTokenOverlap": [],
       "status": "no-map-to-compare",
@@ -8260,11 +8533,11 @@
     }
   ],
   "geometryAudit": {
-    "totalTrackIds": 295,
-    "geometry-source-inconsistency": 5,
-    "geometry-verified": 285,
+    "totalTrackIds": 307,
+    "geometry-source-inconsistency": 6,
+    "geometry-verified": 296,
     "source-unavailable": 5,
-    "osmNamedFeaturesConsidered": 20614,
-    "tracksWithNearbyPlaces": 290
+    "osmNamedFeaturesConsidered": 20326,
+    "tracksWithNearbyPlaces": 302
   }
 }
