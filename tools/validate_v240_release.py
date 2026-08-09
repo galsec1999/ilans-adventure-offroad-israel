@@ -1,4 +1,4 @@
-"""שער איכות למהדורה 2.5.0 — גרסת מסמך 1.0.5; מסמך ראשי 2.3.2."""
+"""שער איכות למהדורה 2.5.1 — גרסת מסמך 1.0.6; מסמך ראשי 2.3.3."""
 
 from __future__ import annotations
 
@@ -8,8 +8,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PRODUCT_VERSION = "2.5.0"
-DOCUMENT_VERSION = "2.3.2"
+PRODUCT_VERSION = "2.5.1"
+DATA_PRODUCT_VERSION = "2.5.0"
+DOCUMENT_VERSION = "2.3.3"
 CARD_RE = re.compile(r'<details class="[^"]*\broute-card\b[^"]*" id="([^"]+)"([^>]*)>(.*?)</details>', re.DOTALL)
 
 
@@ -34,13 +35,13 @@ def main() -> None:
     require(len(cards) == 339, "339 primary route cards")
     require(len({match.group(1) for match in cards}) == 339, "route card IDs are unique")
     require(len(routes_doc["routes"]) == 339, "routes dataset contains 339 records")
-    require(routes_doc["productVersion"] == PRODUCT_VERSION, "routes dataset product version")
+    require(routes_doc["productVersion"] == DATA_PRODUCT_VERSION, "routes dataset product version")
     require(routes_doc["documentVersion"] == "2.2.2", "routes dataset document version")
     require(f"גרסת מוצר {PRODUCT_VERSION}" in index and f"גרסת מסמך {DOCUMENT_VERSION}" in index, "visible main versions")
     require(PRODUCT_VERSION in js and DOCUMENT_VERSION in js, "JavaScript versions")
     require(PRODUCT_VERSION in css and DOCUMENT_VERSION in css, "CSS versions")
     require(manifest["version"] == PRODUCT_VERSION and manifest["document_version"] == DOCUMENT_VERSION, "manifest versions")
-    require("2.5.0-doc-2.3.2" in sw and "?v=2.3.2" in sw, "service worker cache version")
+    require("2.5.1-doc-2.3.3" in sw and "?v=2.3.3" in sw, "service worker cache version")
     require(f"גרסת מוצר {PRODUCT_VERSION}" in offline and f"גרסת מסמך {DOCUMENT_VERSION}" in offline, "offline page versions")
 
     require(index.count('class="source-fact-card verified"') == 294, "verified source fact cards: 290 Off-Road and 4 Google")
@@ -50,7 +51,7 @@ def main() -> None:
     require(index.count("עודכן:") >= 290, "all verified Off-Road records show update date")
     require(index.count("ביקורות") >= 290, "all verified Off-Road records show review status")
     require(metadata["counts"]["verified"] == 290 and metadata["counts"]["unavailable"] == 5, "Off-Road metadata counts")
-    require(metadata["productVersion"] == PRODUCT_VERSION and metadata["documentVersion"] == "2.2.0", "Off-Road metadata versions")
+    require(metadata["productVersion"] == DATA_PRODUCT_VERSION and metadata["documentVersion"] == "2.2.0", "Off-Road metadata versions")
 
     derived_cards = [match for match in cards if 'data-difficulty-basis="offroad-track-source"' in match.group(2)]
     require(len(derived_cards) == 272, "272 cards use source-only difficulty normalization")
@@ -85,7 +86,7 @@ def main() -> None:
     require("data-theme=\"dark\"" in css and "THEME_STORAGE_KEY" in js, "dark mode exists")
     require("אין שרת, מפתח API או תשלום" in index and "sk-" not in index and "sk-" not in js, "AI works without embedded API keys")
     require(all(f'id="{name}"' in index for name in ("region", "subregion", "difficulty", "surface", "shape", "status", "quality", "source", "map", "sort")), "all route filters and sorting controls exist")
-    print("PASS: release 2.5.0 quality gate complete")
+    print("PASS: release 2.5.1 quality gate complete")
 
 
 if __name__ == "__main__":

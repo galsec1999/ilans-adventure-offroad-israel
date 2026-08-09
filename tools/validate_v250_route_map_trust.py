@@ -1,4 +1,4 @@
-"""שער אמינות כרטיס–מפה 2.5.0 — גרסת מסמך 1.0.1; מסמך ראשי 2.3.2."""
+"""שער אמינות כרטיס–מפה 2.5.0 — גרסת מסמך 1.0.2; מסמך אתר 2.3.3."""
 
 from __future__ import annotations
 
@@ -42,9 +42,9 @@ def main() -> int:
     require(routes_doc["productVersion"] == "2.5.0" and routes_doc["documentVersion"] == "2.2.2", "routes dataset versions")
     require(metadata_doc["productVersion"] == "2.5.0" and metadata_doc["documentVersion"] == "2.2.0", "Off-Road metadata versions")
     require(audit["productVersion"] == "2.5.0" and audit["routesDocumentVersion"] == "2.2.2", "alignment audit versions")
-    require(manifest["version"] == "2.5.0" and manifest["document_version"] == "2.3.2", "manifest versions")
-    require("גרסת מוצר 2.5.0" in index and "גרסת מסמך 2.3.2" in index, "visible main versions")
-    require("2.5.0-doc-2.3.2" in sw and "./data/route-map-trust-audit.json" in sw, "PWA cache includes trust audit")
+    require(manifest["version"] == "2.5.1" and manifest["document_version"] == "2.3.3", "manifest versions")
+    require("גרסת מוצר 2.5.1" in index and "גרסת מסמך 2.3.3" in index, "visible main versions")
+    require("2.5.1-doc-2.3.3" in sw and "./data/route-map-trust-audit.json" in sw, "PWA cache includes trust audit")
     require(len(routes) == len(cards) == 339, "339 route cards remain intact")
 
     expected_counts = {

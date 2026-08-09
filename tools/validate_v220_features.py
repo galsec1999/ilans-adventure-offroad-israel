@@ -1,4 +1,4 @@
-"""שער איכות לשימור תכונות המהדורה המאוחדת — גרסת מסמך 1.0.7; מוצר 2.5.0, מסמך ראשי 2.3.2."""
+"""שער איכות לשימור תכונות המהדורה המאוחדת — גרסת מסמך 1.0.8; מוצר 2.5.1, מסמך ראשי 2.3.3."""
 
 from __future__ import annotations
 
@@ -7,8 +7,8 @@ import re
 from pathlib import Path
 
 
-PRODUCT_VERSION = "2.5.0"
-DOCUMENT_VERSION = "2.3.2"
+PRODUCT_VERSION = "2.5.1"
+DOCUMENT_VERSION = "2.3.3"
 
 
 def check(condition: bool, message: str) -> None:
@@ -27,12 +27,12 @@ def main() -> int:
     manifest = json.loads((root / "manifest.webmanifest").read_text(encoding="utf-8"))
     routes = json.loads((root / "data" / "routes.json").read_text(encoding="utf-8"))
 
-    check(f"גרסת מוצר {PRODUCT_VERSION}" in index, "main title displays product 2.5.0")
-    check(f"גרסת מסמך {DOCUMENT_VERSION}" in index, "main title displays document 2.3.0")
+    check(f"גרסת מוצר {PRODUCT_VERSION}" in index, "main title displays product 2.5.1")
+    check(f"גרסת מסמך {DOCUMENT_VERSION}" in index, "main title displays document 2.3.3")
     check(PRODUCT_VERSION in app and DOCUMENT_VERSION in app, "application script declares both versions")
     check(PRODUCT_VERSION in css and DOCUMENT_VERSION in css, "stylesheet declares both versions")
-    check(manifest["version"] == PRODUCT_VERSION, "manifest product version is 2.5.0")
-    check(manifest["document_version"] == DOCUMENT_VERSION, "manifest document version is 2.3.0")
+    check(manifest["version"] == PRODUCT_VERSION, "manifest product version is 2.5.1")
+    check(manifest["document_version"] == DOCUMENT_VERSION, "manifest document version is 2.3.3")
     check(PRODUCT_VERSION in sw and DOCUMENT_VERSION in sw, "service worker uses the current versions")
     check(PRODUCT_VERSION in offline and DOCUMENT_VERSION in offline, "offline page shows the current versions")
     check(len(routes["routes"]) == 339 and index.count('class="route-card') == 339, "all 339 route cards remain intact")

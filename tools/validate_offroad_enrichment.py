@@ -1,4 +1,4 @@
-"""בדיקות השלמת מטא-דאטה Off-Road — גרסת מסמך 2.3.1; גרסת מוצר 2.5.0."""
+"""בדיקות השלמת מטא-דאטה Off-Road — גרסת מסמך 2.3.2; גרסת מוצר 2.5.1."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 DATA_DOCUMENT_VERSION = "2.2.2"
-SITE_DOCUMENT_VERSION = "2.3.2"
+SITE_DOCUMENT_VERSION = "2.3.3"
 EXPECTED_CARDS = 339
 EXPECTED_TRACK_IDS = 295
 

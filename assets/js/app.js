@@ -1,9 +1,9 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.3.2; גרסת מוצר 2.5.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.3.3; גרסת מוצר 2.5.1 */
 (() => {
   'use strict';
 
-  const PRODUCT_VERSION = '2.5.0';
-  const DOC_VERSION = '2.3.2';
+  const PRODUCT_VERSION = '2.5.1';
+  const DOC_VERSION = '2.3.3';
   const OFFROAD_METADATA = window.OFFROAD_TRACK_METADATA?.records || {};
   const INVITE_STORAGE_KEY = 'routeGuideInviteDefaultsV21';
   const THEME_STORAGE_KEY = 'routeGuideThemeV21';
@@ -433,16 +433,29 @@
   applyFilters();
 
   const themeSelect = $('#theme');
+  const themeLightButton = $('#themeLightButton');
+  const themeDarkButton = $('#themeDarkButton');
+  const themeStatus = $('#themeStatus');
   function applyTheme(preference) {
     const theme = preference === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : preference;
     document.documentElement.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#151c18' : '#285d45');
+    themeLightButton?.setAttribute('aria-pressed', String(theme === 'light'));
+    themeDarkButton?.setAttribute('aria-pressed', String(theme === 'dark'));
+    if (themeStatus) themeStatus.textContent = theme === 'dark' ? 'מצב חשוך פעיל' : 'מצב בהיר פעיל';
   }
-  themeSelect.value = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  themeSelect.value = ['light', 'dark', 'system'].includes(savedTheme) ? savedTheme : 'light';
   applyTheme(themeSelect.value);
+  function chooseTheme(preference) {
+    themeSelect.value = preference;
+    localStorage.setItem(THEME_STORAGE_KEY, preference);
+    applyTheme(preference);
+  }
+  themeLightButton?.addEventListener('click', () => chooseTheme('light'));
+  themeDarkButton?.addEventListener('click', () => chooseTheme('dark'));
   themeSelect.addEventListener('change', () => {
-    localStorage.setItem(THEME_STORAGE_KEY, themeSelect.value);
-    applyTheme(themeSelect.value);
+    chooseTheme(themeSelect.value);
   });
   matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => {
     if (themeSelect.value === 'system') applyTheme('system');
