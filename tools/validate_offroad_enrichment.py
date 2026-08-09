@@ -1,4 +1,4 @@
-"""בדיקות השלמת מטא-דאטה Off-Road — גרסת מסמך 2.3.2; גרסת מוצר 2.5.1."""
+"""בדיקות השלמת מטא-דאטה Off-Road — גרסת מסמך 2.3.4; גרסת מוצר 2.6.0."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 DATA_DOCUMENT_VERSION = "2.2.2"
-SITE_DOCUMENT_VERSION = "2.3.3"
+SITE_DOCUMENT_VERSION = "2.4.0"
 EXPECTED_CARDS = 339
 EXPECTED_TRACK_IDS = 295
 
@@ -63,13 +63,13 @@ def main() -> int:
     check("window.OFFROAD_TRACK_METADATA = " in metadata_js, "metadata JavaScript exposes the static dataset")
     check(index.find("offroad-all-metadata.js") < index.find("assets/js/app.js"), "metadata loads before app logic")
     check(index.count('class="route-card') == EXPECTED_CARDS, "static HTML still contains 339 route cards")
-    check(f"גרסת מסמך {SITE_DOCUMENT_VERSION}" in index, "main HTML displays document version 2.3.0")
+    check(f"גרסת מסמך {SITE_DOCUMENT_VERSION}" in index, f"main HTML displays document version {SITE_DOCUMENT_VERSION}")
     check('<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">' in index, "main HTML retains noindex policy")
     check("offroad-source-data" in app and "offroadTrackSummaries" in app, "app renders and exports source metadata")
     check("📊 נתוני Off‑Road מן ההקלטה" in app, "WhatsApp invitation includes source metadata")
     check("offroadTrackMetadata:data.offroadTracks" in app, "AI prompt receives source metadata")
     check("offroad-all-metadata.js" in service_worker and SITE_DOCUMENT_VERSION in service_worker, "service worker caches metadata with the current site cache version")
-    check(manifest["document_version"] == SITE_DOCUMENT_VERSION, "manifest document version is 2.3.0")
+    check(manifest["document_version"] == SITE_DOCUMENT_VERSION, f"manifest document version is {SITE_DOCUMENT_VERSION}")
     check(re.search(r"User-agent:\s*\*\s*Disallow:\s*/", (root / "robots.txt").read_text(encoding="utf-8")) is not None, "robots.txt still disallows crawling")
     return 0
 

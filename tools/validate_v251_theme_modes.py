@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""שער איכות למצבי תצוגה בהיר וחשוך — גרסת מסמך 1.0.0; מוצר 2.5.1."""
+"""שער איכות למצבי תצוגה בהיר וחשוך — גרסת מסמך 1.0.1; מוצר 2.6.0."""
 
 from pathlib import Path
 import json
@@ -23,7 +23,7 @@ js = (ROOT / "assets/js/app.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 manifest = json.loads((ROOT / "manifest.webmanifest").read_text(encoding="utf-8"))
 
-require("גרסת מוצר 2.5.1" in index and "גרסת מסמך 2.3.3" in index, "visible release versions")
+require("גרסת מוצר 2.6.0" in index and "גרסת מסמך 2.4.0" in index, "visible release versions")
 require(index.index('id="earlyTheme"') < index.index('rel="stylesheet"'), "early theme is applied before CSS")
 require(index.count('id="themeLightButton"') == 1, "one prominent light-mode button")
 require(index.count('id="themeDarkButton"') == 1, "one prominent dark-mode button")
@@ -37,8 +37,8 @@ require("themeLightButton" in js and "themeDarkButton" in js and "chooseTheme" i
 require("localStorage.setItem(THEME_STORAGE_KEY, preference)" in js, "theme choice is persisted")
 require("themeSelect.value = preference" in js, "hero buttons synchronize the advanced select")
 require("aria-pressed" in js and "themeStatus.textContent" in js, "theme state stays accessible")
-require(manifest["version"] == "2.5.1" and manifest["document_version"] == "2.3.3", "manifest versions")
-require("2.5.1-doc-2.3.3" in sw and "?v=2.3.3" in sw, "fresh PWA cache")
+require(manifest["version"] == "2.6.0" and manifest["document_version"] == "2.4.0", "manifest versions")
+require("2.6.0-doc-2.4.0" in sw and "?v=2.4.0" in sw, "fresh PWA cache")
 
 if failures:
     print(f"FAIL: {len(failures)} of {checks} checks failed")

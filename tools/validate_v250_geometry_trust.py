@@ -1,4 +1,4 @@
-"""שער איכות לאימות תוואי ונקודות ציון — גרסת מסמך 1.0.1; מוצר אתר 2.5.1."""
+"""שער איכות לאימות תוואי ונקודות ציון — גרסת מסמך 1.0.2; מוצר אתר 2.6.0."""
 
 from __future__ import annotations
 
@@ -44,7 +44,7 @@ def main() -> int:
     check(all(len(re.findall(r"\sdata-search=", card)) == 1 for card in cards), "exactly one search index per route card")
     check(index.count('class="geometry-verification') == 276, "276 cards show geometry verification")
     check(index.count('class="geometry-warning') == 5, "five source inconsistencies are visible in cards")
-    check("גרסת מוצר 2.5.1" in index and "גרסת מסמך 2.3.3" in index, "main page versions are visible")
+    check("גרסת מוצר 2.6.0" in index and "גרסת מסמך 2.4.0" in index, "main page versions are visible")
     check("בית הקשתות" in next(card for card in cards if 'id="r-c20c0c5507"' in card), "Latrun corrected card indexed by mapped landmark")
     check("נחל אלכסנדר" in next(card for card in cards if 'id="r-7894e9f48d"' in card), "Alexander stream corrected card indexed by mapped landmark")
     check("מצפור קרן הכרמל" in next(card for card in cards if 'id="r-df98cfab89"' in card), "Horshan corrected card indexed by mapped landmark")
