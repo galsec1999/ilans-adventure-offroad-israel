@@ -2,7 +2,7 @@
   "id": "./",
   "name": "ספר מסלולי האדוונצ׳ר והאופרוד בישראל של אילן",
   "short_name": "מסלולי אילן",
-  "description": "מדריך מסלולים קהילתי עם נתוני Off-Road ו-Google Maps מוקשחים ב-HTML, הזמנות WhatsApp, ייצוא HTML מלא, בטיחות, AI מקומי ומונה כניסות",
+  "description": "מדריך קהילתי עם 339 כרטיסי טיול, 100 מקורות מחקר נפרדים, נתוני מקור קשיחים, הזמנות WhatsApp, ייצוא HTML, בטיחות ו-AI מקומי",
   "lang": "he",
   "dir": "rtl",
   "start_url": "./",
@@ -41,6 +41,6 @@
       "purpose": "maskable"
     }
   ],
-  "version": "2.3.0",
-  "document_version": "2.1.7"
+  "version": "2.4.0",
+  "document_version": "2.2.3"
 }

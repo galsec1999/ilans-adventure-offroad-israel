@@ -1,7 +1,7 @@
 {
-  "title": "מועמדי מחקר שנשמרו מחוץ לקטלוג הראשי",
-  "document_version": "2.1.4",
-  "product_version": "2.1.0",
+  "title": "מועמדי מחקר שנשמרו מחוץ לקטלוג הראשי — גרסת מסמך 2.1.5",
+  "document_version": "2.1.5",
+  "product_version": "2.4.0",
   "count": 100,
   "reason": "המועמדים הוצאו מן הספירה ומכרטיסי הטיול משום שאין בהם עדיין מספיק נתונים מאומתים לאופנוע. הם נשמרו ולא נמחקו.",
   "routes": [
@@ -1896,5 +1896,6 @@
       ],
       "recovered_navigation_status": "technically_discovered_not_route-verified"
     }
-  ]
+  ],
+  "navigation_links_discovered": 45
 }

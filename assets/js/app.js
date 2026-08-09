@@ -1,15 +1,16 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.1.7; גרסת מוצר 2.3.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.2.3; גרסת מוצר 2.4.0 */
 (() => {
   'use strict';
 
-  const PRODUCT_VERSION = '2.3.0';
-  const DOC_VERSION = '2.1.7';
+  const PRODUCT_VERSION = '2.4.0';
+  const DOC_VERSION = '2.2.3';
   const OFFROAD_METADATA = window.OFFROAD_TRACK_METADATA?.records || {};
   const INVITE_STORAGE_KEY = 'routeGuideInviteDefaultsV21';
   const THEME_STORAGE_KEY = 'routeGuideThemeV21';
-  const VISIT_DAY_STORAGE_KEY = 'routeGuideVisitDayV22';
-  const VISIT_VALUE_STORAGE_KEY = 'routeGuideVisitValueV22';
-  const VISIT_COUNTER_URL = 'https://api.counterapi.dev/v1/ilans-adventure-offroad-israel/site-visits-v1';
+  const VISIT_DAY_STORAGE_KEY = 'routeGuideVisitDayV24';
+  const VISIT_VALUE_STORAGE_KEY = 'routeGuideVisitValueV24';
+  const VISIT_COUNTER_URL = 'https://countapi.mileshilliard.com/api/v1';
+  const VISIT_COUNTER_KEY = 'galsec1999-ilans-adventure-offroad-israel-v1';
   const cards = [...document.querySelectorAll('.route-card')];
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -228,18 +229,20 @@
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 6000);
     try {
-      const endpoint = alreadyCountedToday ? VISIT_COUNTER_URL : `${VISIT_COUNTER_URL}/up`;
-      const response = await fetch(endpoint, {cache:'no-store', signal:controller.signal, headers:{Accept:'application/json'}});
-      if (!response.ok) throw new Error(`Counter API ${response.status}`);
+      const action = alreadyCountedToday ? 'get' : 'hit';
+      const response = await fetch(`${VISIT_COUNTER_URL}/${action}/${VISIT_COUNTER_KEY}`, {
+        cache:'no-store', signal:controller.signal, headers:{Accept:'application/json'}
+      });
+      if (!response.ok) throw new Error(`Counter service ${response.status}`);
       const payload = await response.json();
-      const value = Number(payload.count ?? payload.value ?? payload.data?.count ?? payload.data?.up_count);
-      if (!Number.isFinite(value) || value < 0) throw new Error('Counter API returned no numeric count');
+      const value = Number(payload.value);
+      if (!Number.isFinite(value) || value < 0) throw new Error('Counter service returned no numeric value');
       countTarget.textContent = value.toLocaleString('he-IL');
       localStorage.setItem(VISIT_VALUE_STORAGE_KEY, String(value));
       if (!alreadyCountedToday) localStorage.setItem(VISIT_DAY_STORAGE_KEY, today);
-      if (statusTarget) statusTarget.textContent = 'מונה ציבורי משוער · נספר פעם ביום בכל מכשיר';
+      if (statusTarget) statusTarget.textContent = 'מונה ציבורי · נספר פעם ביום בכל מכשיר';
     } catch (error) {
-      if (statusTarget) statusTarget.textContent = cached >= 0 ? 'הערך האחרון שנשמר במכשיר' : 'המונה אינו זמין כרגע';
+      if (statusTarget) statusTarget.textContent = Number.isFinite(cached) && cached >= 0 ? 'הערך האחרון שנשמר במכשיר' : 'המונה אינו זמין כרגע';
       console.warn('Visit counter unavailable', error);
     } finally {
       clearTimeout(timeout);
@@ -248,6 +251,35 @@
 
   addLegacyRouteActions();
   loadVisitCounter();
+
+  function initializeResearchLibrary() {
+    const researchCards = $$('.research-card');
+    const query = $('#researchQuery');
+    const region = $('#researchRegion');
+    const navigationOnly = $('#researchNavigationOnly');
+    const resultCount = $('#researchResultCount');
+    const empty = $('#researchEmpty');
+    if (!researchCards.length || !query || !region || !navigationOnly) return;
+    const apply = () => {
+      const term = plain(query.value).toLocaleLowerCase('he');
+      let visible = 0;
+      researchCards.forEach(card => {
+        const matches = (!term || plain(card.dataset.search).toLocaleLowerCase('he').includes(term)) &&
+          (!region.value || card.dataset.region === region.value) &&
+          (!navigationOnly.checked || card.dataset.navigation === '1');
+        card.hidden = !matches;
+        if (matches) visible += 1;
+      });
+      if (resultCount) resultCount.textContent = `${visible} מתוך ${researchCards.length} מקורות`;
+      if (empty) empty.hidden = visible !== 0;
+    };
+    query.addEventListener('input', apply);
+    region.addEventListener('change', apply);
+    navigationOnly.addEventListener('change', apply);
+    apply();
+  }
+
+  initializeResearchLibrary();
 
   async function copyText(text, success = 'הטקסט הועתק') {
     try {

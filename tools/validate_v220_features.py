@@ -1,4 +1,4 @@
-"""שער איכות למהדורה המאוחדת — גרסת מסמך 1.0.0; מוצר 2.2.0, מסמך ראשי 2.1.6."""
+"""שער איכות לשימור תכונות המהדורה המאוחדת — גרסת מסמך 1.0.5; מוצר 2.4.0, מסמך ראשי 2.2.3."""
 
 from __future__ import annotations
 
@@ -7,8 +7,8 @@ import re
 from pathlib import Path
 
 
-PRODUCT_VERSION = "2.2.0"
-DOCUMENT_VERSION = "2.1.6"
+PRODUCT_VERSION = "2.4.0"
+DOCUMENT_VERSION = "2.2.3"
 
 
 def check(condition: bool, message: str) -> None:
@@ -27,18 +27,18 @@ def main() -> int:
     manifest = json.loads((root / "manifest.webmanifest").read_text(encoding="utf-8"))
     routes = json.loads((root / "data" / "routes.json").read_text(encoding="utf-8"))
 
-    check(f"גרסת מוצר {PRODUCT_VERSION}" in index, "main title displays product 2.2.0")
-    check(f"גרסת מסמך {DOCUMENT_VERSION}" in index, "main title displays document 2.1.6")
+    check(f"גרסת מוצר {PRODUCT_VERSION}" in index, "main title displays product 2.4.0")
+    check(f"גרסת מסמך {DOCUMENT_VERSION}" in index, "main title displays document 2.2.3")
     check(PRODUCT_VERSION in app and DOCUMENT_VERSION in app, "application script declares both versions")
     check(PRODUCT_VERSION in css and DOCUMENT_VERSION in css, "stylesheet declares both versions")
-    check(manifest["version"] == PRODUCT_VERSION, "manifest product version is 2.2.0")
-    check(manifest["document_version"] == DOCUMENT_VERSION, "manifest document version is 2.1.6")
+    check(manifest["version"] == PRODUCT_VERSION, "manifest product version is 2.4.0")
+    check(manifest["document_version"] == DOCUMENT_VERSION, "manifest document version is 2.2.3")
     check(PRODUCT_VERSION in sw and DOCUMENT_VERSION in sw, "service worker uses the current versions")
     check(PRODUCT_VERSION in offline and DOCUMENT_VERSION in offline, "offline page shows the current versions")
     check(len(routes["routes"]) == 339 and index.count('class="route-card') == 339, "all 339 route cards remain intact")
 
     check('id="visitCount"' in index and 'id="visitCountStatus"' in index, "visitor counter is visible in the main statistics")
-    check("api.counterapi.dev/v1/ilans-adventure-offroad-israel/site-visits-v1" in app, "public visitor counter endpoint is configured")
+    check("countapi.mileshilliard.com/api/v1" in app, "public visitor counter endpoint is configured")
     check("VISIT_DAY_STORAGE_KEY" in app and "alreadyCountedToday" in app, "counter increments at most once per device per day")
     check("VISIT_VALUE_STORAGE_KEY" in app and "הערך האחרון שנשמר במכשיר" in app, "counter has a local fallback")
 

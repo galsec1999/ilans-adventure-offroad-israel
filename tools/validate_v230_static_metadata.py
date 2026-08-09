@@ -1,4 +1,4 @@
-"""שער איכות למטא-דאטה קשיח — גרסת מסמך 1.0.2; מוצר 2.3.0, מסמך ראשי 2.1.7."""
+"""שער איכות למטא-דאטה קשיח — גרסת מסמך 1.1.3; מוצר 2.4.0, מסמך ראשי 2.2.3."""
 
 from __future__ import annotations
 
@@ -9,9 +9,9 @@ import sys
 from pathlib import Path
 
 
-PRODUCT_VERSION = "2.3.0"
-MAIN_DOCUMENT_VERSION = "2.1.7"
-DATA_DOCUMENT_VERSION = "2.1.6"
+PRODUCT_VERSION = "2.4.0"
+MAIN_DOCUMENT_VERSION = "2.2.3"
+DATA_DOCUMENT_VERSION = "2.1.8"
 EXPECTED_CARDS = 339
 EXPECTED_TRACK_CARDS = 276
 EXPECTED_NAVIGATION_CARDS = 280
@@ -56,14 +56,14 @@ def main() -> int:
     cards = {match.group("id"): match.group("body") for match in CARD_RE.finditer(index)}
 
     check(len(cards) == EXPECTED_CARDS, "index contains exactly 339 route cards")
-    check(routes_doc["productVersion"] == PRODUCT_VERSION, "routes dataset product version is 2.3.0")
-    check(routes_doc["documentVersion"] == DATA_DOCUMENT_VERSION, "routes dataset document version is 2.1.6")
-    check(metadata["productVersion"] == PRODUCT_VERSION, "Off-Road metadata product version is 2.3.0")
-    check(metadata["documentVersion"] == DATA_DOCUMENT_VERSION, "Off-Road metadata document version is 2.1.6")
-    check(f"גרסת מוצר {PRODUCT_VERSION}" in index, "main HTML displays product version 2.3.0")
-    check(f"גרסת מסמך {MAIN_DOCUMENT_VERSION}" in index, "main HTML displays document version 2.1.7")
+    check(routes_doc["productVersion"] == PRODUCT_VERSION, "routes dataset product version is 2.4.0")
+    check(routes_doc["documentVersion"] == DATA_DOCUMENT_VERSION, "routes dataset document version is 2.1.8")
+    check(metadata["productVersion"] == PRODUCT_VERSION, "Off-Road metadata product version is 2.4.0")
+    check(metadata["documentVersion"] == "2.1.7", "Off-Road metadata document version is 2.1.7")
+    check(f"גרסת מוצר {PRODUCT_VERSION}" in index, "main HTML displays product version 2.4.0")
+    check(f"גרסת מסמך {MAIN_DOCUMENT_VERSION}" in index, "main HTML displays document version 2.2.3")
     check(manifest["version"] == PRODUCT_VERSION and manifest["document_version"] == MAIN_DOCUMENT_VERSION, "manifest versions are current")
-    check("2.3.0-doc-2.1.7" in sw and "?v=2.1.7" in sw, "service worker cache is current")
+    check("2.4.0-doc-2.2.3" in sw and "?v=2.2.3" in sw, "service worker cache is current")
 
     track_routes = [item for item in routes.values() if item.get("map", {}).get("trackIds")]
     check(len(track_routes) == EXPECTED_TRACK_CARDS, "276 cards retain Track IDs")

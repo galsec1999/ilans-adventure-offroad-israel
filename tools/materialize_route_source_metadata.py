@@ -1,4 +1,4 @@
-"""הקשחת מטא-דאטה של מקורות לתוך ספר המסלולים — גרסת מסמך 1.0.6; גרסת מוצר 2.3.0."""
+"""הקשחת מטא-דאטה של מקורות לתוך ספר המסלולים — גרסת מסמך 1.1.4; גרסת מוצר 2.4.0."""
 
 from __future__ import annotations
 
@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import Any
 
 
-PRODUCT_VERSION = "2.3.0"
-MAIN_DOCUMENT_VERSION = "2.1.7"
-ROUTES_DOCUMENT_VERSION = "2.1.6"
+PRODUCT_VERSION = "2.4.0"
+MAIN_DOCUMENT_VERSION = "2.2.3"
+ROUTES_DOCUMENT_VERSION = "2.1.8"
 CARD_RE = re.compile(
     r'<details class="(?P<class>[^"]*\broute-card\b[^"]*)" id="(?P<id>[^"]+)"(?P<attrs>[^>]*)>(?P<body>.*?)</details>',
     re.DOTALL,
@@ -74,12 +74,13 @@ def set_attr(opening: str, name: str, value: str) -> str:
 
 
 def add_search_text(opening: str, value: str) -> str:
+    value = " ".join(str(value).split())
     match = re.search(r'\sdata-search="([^"]*)"', opening)
     if not match:
         return set_attr(opening, "data-search", value)
-    current = html.unescape(match.group(1))
+    current = " ".join(html.unescape(match.group(1)).split())
     if value in current:
-        return opening
+        return set_attr(opening, "data-search", current)
     return set_attr(opening, "data-search", f"{current} {value}".strip())
 
 
@@ -104,7 +105,7 @@ def add_summary(body: str, summary: str, chip_class: str) -> str:
 
 
 def replace_visible_difficulty(body: str, old_value: str, new_value: str) -> str:
-    if old_value not in {"", "לא אומת", "לא צוין"}:
+    if not new_value:
         return body
     facts_re = re.compile(r'(<span class="summary-facts">)(.*?)(</span>)', re.DOTALL)
     facts = facts_re.search(body)
@@ -151,14 +152,31 @@ def offroad_section(records: list[dict[str, Any]]) -> tuple[str, str]:
             ]
             status = "נתונים שנשמרו ממקור Off‑Road"
             css_class = "verified"
+            description = str(record.get("shortDescription") or "").strip()
+            description_html = (
+                f'<p class="source-description"><b>תיאור המקור:</b> {esc(description).replace(chr(10), "<br>")}</p>'
+                if description else '<p class="source-description missing">במקור לא פורסם תיאור טקסט נוסף.</p>'
+            )
+            owner = str(record.get("ownerDisplayName") or "לא צוין")
+            updated = str(record.get("updated") or "")[:10] or "לא צוין"
+            reviews = int(record.get("reviews") or 0)
+            rating = record.get("rating")
+            if reviews > 0 and rating is not None:
+                community = f"ציון מצטבר במקור {rating:g} מתוך {reviews} ביקורות"
+            else:
+                community = "לא פורסמו ביקורות מספריות במטא־דאטה"
+            attribution = f"בעל ההקלטה במקור: {owner} · עודכן: {updated} · {community}"
         else:
             facts = ["הנתונים אינם זמינים כעת ב־Off‑Road"]
             status = "הקישור נשמר לבדיקה ידנית"
             css_class = "unavailable"
+            description_html = '<p class="source-description missing">מטא־דאטה מפורט אינו זמין כעת.</p>'
+            attribution = f"Track {record.get('trackId')} · HTTP {record.get('httpStatus') or 'לא ידוע'}"
         rows.append(
             f'<article class="source-fact-card {css_class}"><h4>הקלטה {index}: '
             f'<a href="{esc(url)}" target="_blank" rel="noopener">{esc(title)}</a></h4>'
-            f'<p>{" · ".join(esc(item) for item in facts)}</p><small>{esc(status)}</small></article>'
+            f'<p class="source-primary-facts">{" · ".join(esc(item) for item in facts)}</p>'
+            f'{description_html}<small>{esc(attribution)}<br>{esc(status)}</small></article>'
         )
     if len(records) == 1 and verified:
         primary = verified[0]
@@ -213,7 +231,8 @@ def route_static_payload(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     keys = (
         "trackId", "publicUrl", "status", "title", "distanceKm", "durationMs",
         "durationDisplay", "difficultyLevel", "difficultyDisplay", "activityType",
-        "activityDisplay", "updated", "httpStatus",
+        "activityDisplay", "shortDescription", "ownerDisplayName", "created", "updated",
+        "rating", "reviews", "start", "end", "roundTrip", "httpStatus",
     )
     return [{key: item.get(key) for key in keys} for item in records]
 
@@ -270,9 +289,17 @@ def materialize(root: Path) -> dict[str, int]:
                 opening = set_attr(opening, "data-difficulty-basis", "highest-rated-offroad-track")
                 body = replace_visible_difficulty(body, current_normalized, source_normalized)
                 body = replace_meta_value(body, "סיווג קושי למסנן", source_normalized)
+            elif source_normalized and current_normalized not in {"", "לא אומת", "לא צוין"}:
+                # תיקון ריצה חוזרת: הנתון כבר נשמר ב-JSON אך HTML ישן עדיין הציג "לא אומת".
+                body = replace_visible_difficulty(body, "", current_normalized)
             elif current_normalized in {"", "לא אומת", "לא צוין"}:
                 body = replace_visible_difficulty(body, current_normalized, "לא דורג ב־Off-Road")
-            opening = add_search_text(opening, summary)
+            source_search = " ".join(
+                str(item.get(key) or "")
+                for item in records
+                for key in ("title", "shortDescription", "ownerDisplayName")
+            )
+            opening = add_search_text(opening, f"{summary} {source_search}".strip())
         elif google_record and google_record.get("status") == "verified":
             section, summary = google_section(google_record)
             body = inject_before_marketing(body, section)
@@ -313,10 +340,16 @@ def materialize(root: Path) -> dict[str, int]:
     updated, card_count = CARD_RE.subn(replace_card, index)
     if card_count != len(routes):
         raise ValueError(f"expected {len(routes)} cards, materialized {card_count}")
-    updated = updated.replace("גרסת מוצר 2.2.0", f"גרסת מוצר {PRODUCT_VERSION}")
-    updated = updated.replace("גרסת מסמך 2.1.6", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
-    updated = updated.replace("?v=2.1.6", f"?v={MAIN_DOCUMENT_VERSION}")
-    updated = updated.replace("בגרסה 2.1 מוצגים", "בגרסה 2.3 מוצגים")
+    updated = updated.replace("גרסת מוצר 2.3.0", f"גרסת מוצר {PRODUCT_VERSION}")
+    updated = updated.replace("גרסת מסמך 2.1.7", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("גרסת מסמך 2.2.0", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("גרסת מסמך 2.2.1", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("גרסת מסמך 2.2.2", f"גרסת מסמך {MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("?v=2.1.7", f"?v={MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("?v=2.2.0", f"?v={MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("?v=2.2.1", f"?v={MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("?v=2.2.2", f"?v={MAIN_DOCUMENT_VERSION}")
+    updated = updated.replace("בגרסה 2.3 מוצגים", "בגרסה 2.4 מוצגים")
     updated = updated.replace('<div class="stat"><b>276</b>כרטיסים עם ניווט</div>', '<div class="stat"><b>280</b>כרטיסים עם ניווט</div>')
     routes_doc["productVersion"] = PRODUCT_VERSION
     routes_doc["documentVersion"] = ROUTES_DOCUMENT_VERSION

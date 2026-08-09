@@ -1,0 +1,27 @@
+{
+  "title": "תוצאות בקרת איכות למהדורת הספר — גרסת מסמך 1.0.1",
+  "productVersion": "2.4.0",
+  "mainDocumentVersion": "2.2.3",
+  "testedAt": "2026-08-09",
+  "status": "passed-local-pending-live-publication",
+  "counts": {
+    "primaryRoutes": 339,
+    "routesWithDistance": 287,
+    "routesWithClassifiedDifficulty": 284,
+    "routesWithNavigation": 280,
+    "verifiedOffRoadTracks": 290,
+    "unavailableOffRoadTracks": 5,
+    "researchCandidates": 100,
+    "researchSourcesWithNavigation": 45,
+    "researchNavigationLinks": 46
+  },
+  "checks": [
+    "validate_v240_release.py: passed",
+    "validate_v230_static_metadata.py: passed",
+    "validate_offroad_enrichment.py: passed",
+    "validate_v220_features.py: passed",
+    "node --check assets/js/app.js: passed",
+    "local browser functional and mobile QA: passed",
+    "live GitHub Pages verification: pending publication"
+  ]
+}
