@@ -1,0 +1,38 @@
+{
+  "title": "תוצאות שחרור מצב בהיר וחשוך — גרסת מסמך 1.0.1",
+  "productVersion": "2.5.1",
+  "mainDocumentVersion": "2.3.3",
+  "date": "2026-08-09",
+  "releaseCommit": "148fa0782af15ae77243d17301df0922a28471d1",
+  "pagesRun": 31310269114,
+  "local": {
+    "validatorSuitesPassed": 7,
+    "javascriptSyntaxPassed": true,
+    "gitDiffCheckPassed": true,
+    "themeChecksPassed": 16,
+    "routeCards": 339,
+    "mobileWidthPx": 390,
+    "horizontalOverflow": false,
+    "consoleErrors": 0,
+    "lightMode": true,
+    "darkMode": true,
+    "persistsAfterReload": true
+  },
+  "live": {
+    "url": "https://galsec1999.github.io/ilans-adventure-offroad-israel/",
+    "httpAssetsChecked": 9,
+    "httpAssetsPassed": 9,
+    "manifestVersion": "2.5.1",
+    "manifestDocumentVersion": "2.3.3",
+    "manifestDisplay": "standalone",
+    "icons": 3,
+    "serviceWorkerCache": "2.5.1-doc-2.3.3",
+    "robotsDisallowAll": true,
+    "noindex": true,
+    "sitemapStatus": 404
+  },
+  "limitations": [
+    "בדיקת GUI ישירה בדומיין החי נחסמה בהרשאת דפדפן שמורה; לא בוצע מעקף.",
+    "סמל ההתקנה המקורי של Chrome לא נבדק אוטומטית."
+  ]
+}
