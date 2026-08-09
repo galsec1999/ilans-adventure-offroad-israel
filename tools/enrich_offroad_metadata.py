@@ -1,4 +1,4 @@
-"""השלמת מטא-דאטה Off-Road — גרסת מסמך 2.2.0; גרסת מוצר 2.5.0.
+"""השלמת מטא-דאטה Off-Road — גרסת מסמך 2.3.0; גרסת מוצר 2.7.0.
 
 הכלי קורא את מזהי ה-Track שכבר קיימים בכרטיסי הספר, מושך רק נתוני מקור
 ציבוריים מ-Off-Road, ושומר אותם כ-JSON וכ-JavaScript סטטי לשימוש ה-PWA.
@@ -18,11 +18,11 @@ from pathlib import Path
 from typing import Any
 
 
-PRODUCT_VERSION = "2.5.0"
-DOCUMENT_VERSION = "2.2.0"
+PRODUCT_VERSION = "2.7.0"
+DOCUMENT_VERSION = "2.3.0"
 API_TEMPLATE = "https://api.off-road.io/_ah/api/offroadApi/v2/tracks/trackResult/{track_id}"
 PUBLIC_TEMPLATE = "https://off-road.io/track/{track_id}"
-USER_AGENT = "IlansAdventureGuide/2.5.0 route-map-trust-audit"
+USER_AGENT = "IlansAdventureGuide/2.7.0 navigation-completion"
 
 DIFFICULTY_LABELS = {
     0: "לא דורג במקור",

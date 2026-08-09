@@ -1,4 +1,4 @@
-/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.4.0; גרסת מוצר 2.6.0 */
+/* ספר מסלולי אדוונצ׳ר ואופרוד — גרסת מסמך 2.5.0; גרסת מוצר 2.7.0 */
 :root {
   color-scheme: light;
   --ink:#21312b;
@@ -213,3 +213,19 @@ img{max-width:100%}
 .source-alignment{margin:0 0 16px;padding:14px;border:2px solid color-mix(in srgb,var(--success) 60%,var(--line));border-radius:13px;background:color-mix(in srgb,var(--success) 10%,var(--surface))}.source-alignment h3{margin:0 0 8px}.source-alignment p{margin:.45em 0;line-height:1.6}.source-coordinates{direction:rtl}.source-coordinates a{display:inline-block;direction:ltr}.route-trust-release{margin-block:18px;padding:18px;border-right:7px solid var(--success);border-radius:15px;background:color-mix(in srgb,var(--success) 10%,var(--surface));box-shadow:var(--shadow-soft)}.route-trust-release h2{margin-top:0;color:var(--forest)}#invite-map-select-wrap{margin-bottom:10px;padding:10px;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
 
 .geometry-verification{margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--accent) 8%,var(--surface))}.geometry-verification h3,.geometry-verification h4{margin-top:0}.geometry-track+ .geometry-track{border-top:1px solid var(--line);padding-top:12px}.geometry-verification a{font-weight:700}.geometry-verification small{white-space:nowrap}.geometry-verification.unavailable{border-color:var(--warning)}
+
+
+/* ניווט משלים — גרסת מסמך 2.5.0; גרסת מוצר 2.7.0 */
+.navigation-release{margin-block:18px;padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(135deg,color-mix(in srgb,var(--surface) 88%,var(--success)),var(--surface));box-shadow:var(--shadow-soft)}
+.navigation-release h2{margin-top:0;color:var(--forest)}
+.navigation-supplement{clear:both;margin:18px 0;padding:16px;border:1px solid color-mix(in srgb,var(--success) 42%,var(--line));border-right:6px solid var(--success);border-radius:15px;background:color-mix(in srgb,var(--surface) 92%,var(--success));overflow-wrap:anywhere}
+.navigation-supplement.google-access,.navigation-supplement.access-only{border-right-color:var(--warning);background:color-mix(in srgb,var(--surface) 93%,var(--sand))}
+.navigation-supplement.unresolved{border-right-color:var(--danger);background:color-mix(in srgb,var(--surface) 92%,var(--danger))}
+.navigation-supplement h3{margin:0 0 8px;color:var(--forest)}
+.navigation-warning{font-weight:700}
+.navigation-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.navigation-primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;border-radius:11px;background:var(--forest);color:#fff!important;text-decoration:none;font-weight:800}
+.navigation-primary:hover{background:var(--forest-deep)}
+.navigation-steps{margin:10px 0;padding-inline-start:22px}
+.nav-supplement-chip{background:color-mix(in srgb,var(--success) 20%,var(--surface))!important;border-color:color-mix(in srgb,var(--success) 55%,var(--line))!important;color:var(--ink)!important}
+@media(max-width:600px){.navigation-supplement{padding:13px}.navigation-primary{width:100%}}

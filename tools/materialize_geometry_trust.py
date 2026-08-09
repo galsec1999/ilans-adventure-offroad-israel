@@ -1,4 +1,4 @@
-"""שילוב אימות תוואי ונקודות ציון בספר — גרסת מסמך 1.0.1; מוצר 2.5.0."""
+"""שילוב אימות תוואי ונקודות ציון בספר — גרסת מסמך 1.1.0; מוצר 2.7.0."""
 
 from __future__ import annotations
 
@@ -8,9 +8,9 @@ import re
 from pathlib import Path
 
 
-PRODUCT_VERSION = "2.5.0"
-MAIN_DOCUMENT_VERSION = "2.3.2"
-ROUTES_DOCUMENT_VERSION = "2.2.2"
+PRODUCT_VERSION = "2.7.0"
+MAIN_DOCUMENT_VERSION = "2.5.0"
+ROUTES_DOCUMENT_VERSION = "2.3.0"
 CARD_RE = re.compile(
     r'<details class="(?P<class>[^"]*\broute-card\b[^"]*)" id="(?P<id>[^"]+)"(?P<attrs>[^>]*)>(?P<body>.*?)</details>',
     re.DOTALL,

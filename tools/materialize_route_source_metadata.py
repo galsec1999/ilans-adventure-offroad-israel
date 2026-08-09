@@ -1,4 +1,4 @@
-"""הקשחת מטא-דאטה של מקורות לתוך ספר המסלולים — גרסת מסמך 1.2.1; גרסת מוצר 2.5.0."""
+"""הקשחת מטא-דאטה של מקורות לתוך ספר המסלולים — גרסת מסמך 1.3.0; גרסת מוצר 2.7.0."""
 
 from __future__ import annotations
 
@@ -11,9 +11,9 @@ from pathlib import Path
 from typing import Any
 
 
-PRODUCT_VERSION = "2.5.0"
-MAIN_DOCUMENT_VERSION = "2.3.0"
-ROUTES_DOCUMENT_VERSION = "2.2.1"
+PRODUCT_VERSION = "2.7.0"
+MAIN_DOCUMENT_VERSION = "2.5.0"
+ROUTES_DOCUMENT_VERSION = "2.3.0"
 CARD_RE = re.compile(
     r'<details class="(?P<class>[^"]*\broute-card\b[^"]*)" id="(?P<id>[^"]+)"(?P<attrs>[^>]*)>(?P<body>.*?)</details>',
     re.DOTALL,

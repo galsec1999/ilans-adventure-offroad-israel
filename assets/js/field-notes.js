@@ -1,9 +1,9 @@
-/* יומן שטח מקומי — גרסת מסמך 2.4.0; גרסת מוצר 2.6.0 */
+/* יומן שטח מקומי — גרסת מסמך 2.5.0; גרסת מוצר 2.7.0 */
 (() => {
   'use strict';
 
-  const PRODUCT_VERSION = '2.6.0';
-  const DOC_VERSION = '2.4.0';
+  const PRODUCT_VERSION = '2.7.0';
+  const DOC_VERSION = '2.5.0';
   const EXPORT_SCHEMA_VERSION = 1;
   const DB_NAME = 'ilans-adventure-route-field-notes';
   const DB_VERSION = 1;
