@@ -1,5 +1,5 @@
 {
-  "title": "תוצאות שערי האיכות למהדורת אמינות — גרסת מסמך 1.0.0",
+  "title": "תוצאות שערי האיכות למהדורת אמינות — גרסת מסמך 1.0.1",
   "productVersion": "2.5.0",
   "mainDocumentVersion": "2.3.2",
   "date": "2026-08-09",
@@ -26,5 +26,15 @@
     "git diff --check"
   ],
   "browserFinalDocument": "blocked-by-saved-user-permission",
-  "liveDeployment": "pending"
+  "liveDeployment": "passed",
+  "releaseCommit": "792ca645b2640103eec725ed93915f8423036390",
+  "pagesRun": 31305561155,
+  "liveHttp": {
+    "home": 200,
+    "manifest": 200,
+    "serviceWorker": 200,
+    "icons": [200, 200, 200],
+    "robotsExact": true,
+    "sitemap": 404
+  }
 }
